@@ -36,13 +36,20 @@ public class Test implements CommandLineRunner {
 //        testProductHub();
 //        testprimaryInvoiceTrans();
 //        testPrimatyProf();
-        checkShopping();
-        print();
+//        checkShopping();
+//        print();
+
+        
+
+
+
+
+
 
     }
 
     void testUserProfile(){
-        User user = new User("ahsgdgah","yfasfa",true);
+        User user = new User("ahsgdgah","yfasfa","","");
         userRepository.save(user);
 
         Profile profile = new Profile("asjafaaggd","ajsfkhakfhkhkh", ProfileType.HOME);
@@ -117,7 +124,7 @@ public class Test implements CommandLineRunner {
     }
 
     void checkShopping(){
-        User user = new User("Kumaran","pcsdsged",true);
+        User user = new User("Kumaran","pcsdsged","","");
         userRepository.save(user);
 
         Profile profile = new Profile("asjafaaggd","ajsfkhakfhkhkh", ProfileType.HOME);
@@ -153,7 +160,7 @@ public class Test implements CommandLineRunner {
         transactionRepository.save(transaction);
 
 
-        userRepository.fin
+
 
     }
 }

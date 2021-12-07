@@ -13,9 +13,37 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
+    @Column(unique = true)
     private String username;
     private String password;
     private boolean flag;
+    @Column(unique = true)
+    private String phoneNumber;
+    @Column(unique = true)
+    private String email;
+    private String resetPassToken;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<InvoicePrimary> getInvoices() {
+        return invoices;
+    }
+
+
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Profile> profiles = new ArrayList<>();
@@ -24,11 +52,11 @@ public class User {
     private List<InvoicePrimary> invoices = new ArrayList<>();
 
 
-
-    public User(String username, String password, boolean flag) {
+    public User(String username, String password, String phoneNumber, String email) {
         this.username = username;
         this.password = password;
-        this.flag = flag;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
     public User() {
@@ -94,5 +122,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(username, password);
+    }
+
+    public String getResetPassToken() {
+        return resetPassToken;
+    }
+
+    public void setResetPassToken(String resetPassToken) {
+        this.resetPassToken = resetPassToken;
     }
 }
