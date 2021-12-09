@@ -41,7 +41,7 @@
 </head>
 <body class="container-fluid">
 <form action="/create-checkout-session" method="post">
-    <div class="container">
+    <div class="container-fluid">
         <div class="container-fluid text-center mb-2">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none align-items-center">
@@ -66,6 +66,7 @@
                             <span class="badge bg-success rounded-pill">${cart.size()}</span>
                         </h4>
                         <ul class="list-group mb-3">
+
 
     <%
 
@@ -94,11 +95,13 @@
                         "</li>");
             }
             Total += product.getCost()*(100-product.getDiscount())*0.01*products.get(product);
+            index++;
         }
 
         out.println("<li class=\"list-group-item d-flex justify-content-between\">\n" +
                         "<span>Total (INR)</span>\n" +
-                        "<strong>&#8377;"+String.format("%.2f",Total)+"</strong>\n" +
+                        "<strong name='amount'>&#8377;"+String.format("%.2f",Total)+"</strong>\n" +
+                        "<input type=\"hidden\" name=\"amount\" value=\""+String.format("%.2f",Total)+"\">"+
                     "</li>");
     %>
         </ul>

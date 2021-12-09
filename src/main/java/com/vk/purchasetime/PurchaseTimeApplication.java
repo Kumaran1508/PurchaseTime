@@ -9,6 +9,7 @@ public class PurchaseTimeApplication {
     public static void main(String[] args) {
         SpringApplication.run(PurchaseTimeApplication.class, args);
 
+
     }
 
 }

@@ -28,8 +28,8 @@ public class PaymentService {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl(YOUR_DOMAIN+"/testpay")
-                        .setCancelUrl(YOUR_DOMAIN+"/testpay")
+                        .setSuccessUrl(YOUR_DOMAIN+"/invoice")
+                        .setCancelUrl(YOUR_DOMAIN+"/failed")
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
                                         .setQuantity(1L)

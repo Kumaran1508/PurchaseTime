@@ -14,7 +14,10 @@ public class Profile {
     private int profileId;
     private String profileName;
     private String address;
+    private String state;
+    private String pincode;
     private String profileType;
+    private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
@@ -40,6 +43,30 @@ public class Profile {
         this.profileName = profileName;
         this.address = address;
         this.profileType = profileType.toString();
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public void setProfileId(int profileId) {

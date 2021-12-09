@@ -2,20 +2,30 @@ package com.vk.purchasetime;
 
 import com.vk.purchasetime.models.*;
 import com.vk.purchasetime.repositories.*;
+import com.vk.purchasetime.services.InvoiceGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.util.HashMap;
 
 @Component
 public class Test implements CommandLineRunner {
 
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final ProfileRepository profileRepository;
+    @Autowired
     private final ProductRepository productRepository;
+    @Autowired
     private final HubRepository hubRepository;
+    @Autowired
     private final InvoicePrimaryRepository invoicePrimaryRepository;
+    @Autowired
     private final TransactionRepository transactionRepository;
+    @Autowired
     private final InvoiceTransactionRepository invoiceTransactionRepository;
 
     public Test(UserRepository userRepository, ProfileRepository profileRepository, ProductRepository productRepository, HubRepository hubRepository, InvoicePrimaryRepository invoicePrimaryRepository, TransactionRepository transactionRepository, InvoiceTransactionRepository invoiceTransactionRepository) {
@@ -36,7 +46,7 @@ public class Test implements CommandLineRunner {
 //        testProductHub();
 //        testprimaryInvoiceTrans();
 //        testPrimatyProf();
-//        checkShopping();
+//        checkShopping(null);
 //        print();
 
         
@@ -123,13 +133,16 @@ public class Test implements CommandLineRunner {
         }
     }
 
-    void checkShopping(){
+    public void checkShopping(HashMap<Product,Integer> cart){
         User user = new User("Kumaran","pcsdsged","","");
         userRepository.save(user);
 
         Profile profile = new Profile("asjafaaggd","ajsfkhakfhkhkh", ProfileType.HOME);
         user.getProfiles().add(profile);
         profile.setUser(user);
+        profile.setState("TamilNadu");
+        profile.setPincode("600053");
+        profile.setPhoneNumber("9551046889");
 
         InvoicePrimary invoicePrimary = new InvoicePrimary(new Date(121,11,5),345.0,TransactionType.DEBIT_CARD);
         invoicePrimary.setProfile(profile);
@@ -160,6 +173,8 @@ public class Test implements CommandLineRunner {
         transactionRepository.save(transaction);
 
 
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        invoiceGenerator.createPdf(invoicePrimary,profile,cart);
 
 
     }

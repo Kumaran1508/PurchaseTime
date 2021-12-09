@@ -18,7 +18,7 @@ public class InvoicePrimary {
     private List<InvoiceTransaction> invoiceTransactions=new ArrayList<>();
 
     private Date invoiceDate;
-    private double deliveryCharges;
+    private double amount;
     private String transactionType;
 
     @OneToMany(mappedBy = "invoicePrimary")
@@ -48,9 +48,9 @@ public class InvoicePrimary {
         this.transactions = transactions;
     }
 
-    public InvoicePrimary(Date invoiceDate, double deliveryCharges, TransactionType transactionType) {
+    public InvoicePrimary(Date invoiceDate, double amount, TransactionType transactionType) {
         this.invoiceDate = invoiceDate;
-        this.deliveryCharges = deliveryCharges;
+        this.amount = amount;
         this.transactionType = transactionType.toString();
     }
 
@@ -81,12 +81,12 @@ public class InvoicePrimary {
         this.invoiceDate = invoiceDate;
     }
 
-    public double getDeliveryCharges() {
-        return deliveryCharges;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setDeliveryCharges(double deliveryCharges) {
-        this.deliveryCharges = deliveryCharges;
+    public void setAmount(double deliveryCharges) {
+        this.amount = deliveryCharges;
     }
 
     public TransactionType getTransactionType() {
@@ -111,7 +111,7 @@ public class InvoicePrimary {
                 "invoiceId=" + invoiceId +
                 ", user=" + user +
                 ", invoiceDate=" + invoiceDate +
-                ", deliveryCharges=" + deliveryCharges +
+                ", deliveryCharges=" + amount +
                 ", transactionType='" + transactionType + '\'' +
                 ", profile=" + profile +
                 '}';

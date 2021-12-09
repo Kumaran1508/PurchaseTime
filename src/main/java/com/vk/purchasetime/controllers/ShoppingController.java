@@ -1,5 +1,6 @@
 package com.vk.purchasetime.controllers;
 
+import com.vk.purchasetime.Test;
 import com.vk.purchasetime.models.Product;
 import com.vk.purchasetime.models.User;
 import com.vk.purchasetime.repositories.ProductRepository;
@@ -26,6 +27,8 @@ public class ShoppingController {
     private UserRepository userRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private Test test;
 
 
     @PostMapping(value = "/login")
@@ -173,14 +176,20 @@ public class ShoppingController {
 
     @RequestMapping(value = "/create-checkout-session",method = RequestMethod.POST)
     public void maketestpay(HttpServletResponse response,HttpServletRequest request){
-
+        test.checkShopping((HashMap<Product, Integer>) request.getSession().getAttribute("cart"));
 
         PaymentService paymentService = new PaymentService();
         paymentService.makePayment(response,request.getParameter("amount"));
     }
 
-    @RequestMapping(value = "/logout",method = RequestMethod.POST)
-    public String logout(HttpServletRequest request){
+//    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+//    public String logout(HttpServletRequest request){
+//        request.getSession().invalidate();
+//        return "index";
+//    }
+
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public String logoutG(HttpServletRequest request){
         request.getSession().invalidate();
         return "index";
     }
@@ -204,6 +213,10 @@ public class ShoppingController {
 
             request.getSession().removeAttribute("products");
             request.getSession().setAttribute("cart",products);
+
+
+
+
         }
         return "checkoutpage";
     }
