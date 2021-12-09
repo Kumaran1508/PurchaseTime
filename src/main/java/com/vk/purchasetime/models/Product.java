@@ -16,6 +16,19 @@ public class Product {
     private double cost;
     private String category;
     private double discount;
+    private String url;
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
     private List<Hub> hubs = new ArrayList<>();
@@ -34,7 +47,8 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, double cost, ProductCategory category, double discount) {
+    public Product(String productName, double cost, ProductCategory category, double discount,String url) {
+        this.url = url;
         this.productName = productName;
         this.cost = cost;
         this.category = category.toString();

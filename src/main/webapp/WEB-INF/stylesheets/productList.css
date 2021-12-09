@@ -1,0 +1,44 @@
+
+table {
+    font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
+    width: 55%;
+    border-collapse: separate;
+    border-spacing: 0 25px;
+}
+tbody{
+    height: 50px;
+    width: 10px
+}
+
+tr:hover { box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.5); cursor: pointer; }
+img{
+    display: block;
+
+}
+td, th {
+    text-align: center;
+    padding: 8px;
+
+}
+.col{
+    background-color:yellowgreen;
+    font-weight: 200;
+    font-family: 'Open Sans';
+}
+#my-img{
+    width: 350px;
+    height: 350px;
+    padding: 0px;
+}
+
+.dt,dt{
+    align-content: left;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+
+body{
+    background-color: white;
+}

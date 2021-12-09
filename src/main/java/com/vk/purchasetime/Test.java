@@ -61,7 +61,7 @@ public class Test implements CommandLineRunner {
     }
 
     void testProductHub(){
-        Product product = new Product("ashdaf",2456.56, ProductCategory.GROCERY,34);
+        Product product = new Product("ashdaf",2456.56, ProductCategory.GROCERY,34,"");
         product.setProductId((int)productRepository.count()+1);
         productRepository.save(product);
 

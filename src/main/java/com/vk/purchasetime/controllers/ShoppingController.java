@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Base64;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 public class ShoppingController {
@@ -31,7 +29,7 @@ public class ShoppingController {
 
 
     @PostMapping(value = "/login")
-    public String doLogin(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request, Model model){
+    public String doLogin(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request, Model model,HttpServletResponse response){
         User user = userRepository.findUserByUsernameAndPassword(username,Base64.getEncoder().encodeToString(password.getBytes()));
         System.out.println(Base64.getEncoder().encodeToString(password.getBytes()));
         if (user==null)
@@ -47,7 +45,6 @@ public class ShoppingController {
 
             SMSService smsService = new SMSService();
             String otp = smsService.smsSender("+916369463739");
-
             session.setAttribute("otp",otp);
             System.out.println(otp);
             return "otpauth";
@@ -65,7 +62,7 @@ public class ShoppingController {
         boolean flag=false;
         if(otp.contentEquals((String)request.getSession().getAttribute("otp"))){
                 System.out.println("otp verified");
-                request.setAttribute("otpverified",true);
+                request.getSession().setAttribute("otpverified",true);
                 flag=true;
         }
         else{
@@ -86,9 +83,13 @@ public class ShoppingController {
     @RequestMapping(value = "/home",method = RequestMethod.GET)
     public String gethome(HttpServletRequest request){
         System.out.println("on get home");
+        System.out.println(request.getSession().getAttributeNames());
         if (request.getSession().getAttribute("username")!=null
                 && request.getSession().getAttribute("otpverified")!=null){
             List<Product> productList = (List<Product>) productRepository.findAll();
+
+
+
             request.getSession().setAttribute("products",productList);
             return "home";
         }
@@ -98,7 +99,7 @@ public class ShoppingController {
     }
 
 
-    @RequestMapping(value = "/signup",method = RequestMethod.POST)
+    @RequestMapping(value = "/signup",method = RequestMethod.GET)
     public String signup(){
         return "signup";
     }
@@ -171,9 +172,63 @@ public class ShoppingController {
     public String testpay(){return "checkoutpage";}
 
     @RequestMapping(value = "/create-checkout-session",method = RequestMethod.POST)
-    public void maketestpay(HttpServletResponse response){
+    public void maketestpay(HttpServletResponse response,HttpServletRequest request){
+
+
         PaymentService paymentService = new PaymentService();
-        paymentService.makePayment(response);
+        paymentService.makePayment(response,request.getParameter("amount"));
     }
+
+    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "index";
+    }
+
+    @RequestMapping(value = "/checkout-products",method = RequestMethod.POST)
+    public String addProductstoCart(HttpServletRequest request){
+        System.out.println("check cart");
+        Enumeration<String> productIDs = request.getParameterNames();
+
+        HashMap<Product,Integer> products = new HashMap<>();
+        while(productIDs.hasMoreElements()){
+            String productId = productIDs.nextElement();
+            Product product = productRepository.findById(Integer.valueOf(productId)).get();
+            int count = Integer.valueOf(request.getParameter(productId));
+
+            System.out.println(product.getProductName()+" "+count);
+            if(count>0){
+                products.put(product,count);
+            }
+
+
+            request.getSession().removeAttribute("products");
+            request.getSession().setAttribute("cart",products);
+        }
+        return "checkoutpage";
+    }
+
+    @RequestMapping(value = "/addtocart",method = RequestMethod.POST)
+    public String addItemtoCart(HttpServletRequest request){
+        HashMap<Integer,Integer> cart = (HashMap<Integer, Integer>) request.getSession().getAttribute("cart");
+        if (cart==null) cart = new HashMap<>();
+        System.out.println(cart);
+
+
+
+        Integer productId = Integer.valueOf(request.getParameter("productId"));
+        System.out.println(productRepository.findById(productId).get().getProductName());
+
+        if (productId!=null){
+            if (cart.containsKey(productId))
+                cart.put(productId, cart.get(productId)+1);
+            else cart.put(productId, 1);
+        }
+
+        return "home";
+    }
+
+
+
 
 }

@@ -18,7 +18,7 @@ import java.util.Map;
 
 
 public class PaymentService {
-    public void makePayment(HttpServletResponse response){
+    public void makePayment(HttpServletResponse response, String amount){
 
 
         // This is your test secret API key.
@@ -36,7 +36,7 @@ public class PaymentService {
                                         .setPriceData(
                                                 SessionCreateParams.LineItem.PriceData.builder()
                                                         .setCurrency("inr")
-                                                        .setUnitAmount(100l)
+                                                        .setUnitAmount(Math.round(Double.parseDouble(amount))*100)
                                                         .setProductData(
                                                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                         .setName("Order")

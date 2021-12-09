@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="..\..\..\resources\static\signin.css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
+    <link rel="icon" href="..\..\..\resources\static\assets\imgs\logo-light.png">
+
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 20vw;
+            object-fit: cover;
+        }
+        .card:hover {
+            background-color: #eee;
+            transform: scale(1.03);
+        }
+    </style>
+    <script>
+        function change(sign){
+            if (sign=='-' && document.getElementById("prodid").value>0) document.getElementById("prodid").value--;
+            else if (sign=='+') document.getElementById("prodid").value++;
+        }
+    </script>
+</head>
+<body>
+
+    <!--  Navbar  -->
+    <div class="container-fluid text-center shadow mb-2">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none align-items-center">
+                <h5 class="mr-3" id="username">Hi! ${username}</h5>
+            </div>
+            <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
+                <img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
+                <h3 class="text-success align-self-center">Purhcase Time</h3>
+            </div>
+            <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
+                <form action="/testpay" method="post">
+                    <button type="submit" class="btn btn-success btn-sm mr-3"><i class="bi bi-cart-fill mr-2"></i>Cart</button>
+                </form>
+                <form action="/logout" method="post">
+                    <button type="submit" style="align-self: flex-end" class="btn btn-outline-danger btn-sm">LOGOUT</button>
+                </form>
+            </div>
+
+        </header>
+    </div>
+    <div class="container">
+    <div class="row justify-content-center">
+        <!--  Card  -->
+        <div class="col-lg-3 d-flex my-2">
+            <div class="card">
+                <img class="card-img-top shadow-sm" src="https://images.unsplash.com/photo-1615485925873-7ecbbe90a866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzaGV3JTIwbnV0fGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Cashew</h5>
+                    <h6 class="card-text">GROCERY</h6>
+
+                    <h5 class="card-title"><s class="text-muted">(1243)</s>500</h5>
+                    <p>Discount : 34%</p>
+                    <div class="input-group mb-2">
+                        <button onclick="change('-')" class="input-group-text btn btn-outline-success">-</button>
+                        <input type="number" class="form-control col-2 text-center" name="count" id="prodid" value="0">
+                        <button type="button" onclick="change('+')" class="input-group-text btn btn-outline-success">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Card  -->
+        <div class="col-lg-3 d-flex my-2">
+            <div class="card">
+                <img class="card-img-top shadow-sm" src="https://us.123rf.com/450wm/kolesnikovserg/kolesnikovserg1706/kolesnikovserg170600595/80621668-dates-in-a-wooden-bowl-with-a-mint-leaf-isolated-on-white-background.jpg?ver=6" ">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <!--  Card  -->
+        <div class="col-lg-3 d-flex my-2">
+            <div class="card">
+                <img class="card-img-top shadow-sm" src="https://images.unsplash.com/photo-1615485925873-7ecbbe90a866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzaGV3JTIwbnV0fGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">one</p>
+                    <a href="#" class="btn btn-success">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 d-flex my-2">
+            <div class="card">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1615485925873-7ecbbe90a866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzaGV3JTIwbnV0fGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 d-flex my-2">
+            <div class="card">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1615485925873-7ecbbe90a866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzaGV3JTIwbnV0fGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 d-flex my-2">
+            <div class="card">
+                <img class="card-img-top" src="https://images.unsplash.com/photo-1615485925873-7ecbbe90a866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FzaGV3JTIwbnV0fGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+    </div></div>
+</body>
+</html>
