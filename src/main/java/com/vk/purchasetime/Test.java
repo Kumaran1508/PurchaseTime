@@ -49,6 +49,7 @@ public class Test implements CommandLineRunner {
 //        checkShopping(null);
 //        print();
 
+
         
 
 
@@ -134,7 +135,7 @@ public class Test implements CommandLineRunner {
     }
 
     public void checkShopping(HashMap<Product,Integer> cart){
-        User user = new User("Kumaran","pcsdsged","","");
+        User user = new User("Kumaran","pcsdsged","6369463739","kumarans1508@gmail.com");
         userRepository.save(user);
 
         Profile profile = new Profile("asjafaaggd","ajsfkhakfhkhkh", ProfileType.HOME);
@@ -175,6 +176,8 @@ public class Test implements CommandLineRunner {
 
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
         invoiceGenerator.createPdf(invoicePrimary,profile,cart);
+
+
 
 
     }

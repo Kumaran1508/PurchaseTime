@@ -40,8 +40,10 @@
     </script>
 </head>
 <body class="container-fluid">
-<form action="/create-checkout-session" method="post">
+
+
     <div class="container-fluid">
+        <%--   Navbar     --%>
         <div class="container-fluid text-center mb-2">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none align-items-center">
@@ -57,123 +59,119 @@
 
             </header>
         </div>
-        <form class="needs-validation" novalidate="">
-            <div class="container">
-                <div class="row g-5">
-                    <div class="col-md-5 col-lg-4 order-md-last">
-                        <h4 class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-success">Your cart</span>
-                            <span class="badge bg-success rounded-pill">${cart.size()}</span>
-                        </h4>
-                        <ul class="list-group mb-3">
 
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-md-5 col-lg-4 order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-success">Your cart</span>
+                        <span class="badge bg-success rounded-pill">${cart.size()}</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <%
+                            HashMap<Product,Integer> products = (HashMap<Product, Integer>) request.getSession().getAttribute("cart");
 
-    <%
+                            double Total = 0.0;
+                            int index =0;
+                            for (Product product : products.keySet()){
+                                Total += product.getCost()*(100-product.getDiscount())*0.01*products.get(product);
+                                if(index%2==0){
+                                    out.println("<li class=\"list-group-item d-flex justify-content-between lh-sm\">" +
+                                                    "<div>" +
+                                                        "<h6 class=\"my-0\">"+product.getProductName()+"</h6>" +
+                                                        "<small class=\"text-muted\">"+products.get(product)+"</small>" +
+                                                    "</div>" +
+                                                    "<span class=\"text-muted\">&#8377;"+String.format("%.2f",product.getCost()*(100-product.getDiscount())*0.01*products.get(product))+"</span>" +
+                                                "</li>");
+                                }
+                                else{
+                                    out.println("<li class=\"list-group-item d-flex justify-content-between bg-light\">" +
+                                            "<div class=\"text-success\">" +
+                                            "<h6 class=\"my-0\">"+product.getProductName()+"</h6>" +
+                                            "<small class=\"text-muted\">"+products.get(product)+"</small>" +
+                                            "</div>" +
+                                            "<span class=\"text-success\">&#8377;"+String.format("%.2f",product.getCost()*(100-product.getDiscount())*0.01*products.get(product))+"</span>" +
+                                            "</li>");
+                                }
+                                index++;
+                            }
 
-        HashMap<Product,Integer> products = (HashMap<Product, Integer>) request.getSession().getAttribute("cart");
-
-        double Total = 0.0;
-        int index =0;
-        for (Product product : products.keySet()){
-            Total += product.getCost()*product.getDiscount()*0.01*products.get(product);
-            if(index%2==0){
-                out.println("<li class=\"list-group-item d-flex justify-content-between lh-sm\">" +
-                                "<div>" +
-                                    "<h6 class=\"my-0\">"+product.getProductName()+"</h6>" +
-                                    "<small class=\"text-muted\">"+products.get(product)+"</small>" +
-                                "</div>" +
-                                "<span class=\"text-muted\">&#8377;"+String.format("%.2f",product.getCost()*(100-product.getDiscount())*0.01*products.get(product))+"</span>" +
-                            "</li>");
-            }
-            else{
-                out.println("<li class=\"list-group-item d-flex justify-content-between bg-light\">" +
-                        "<div class=\"text-success\">" +
-                        "<h6 class=\"my-0\">"+product.getProductName()+"</h6>" +
-                        "<small class=\"text-muted\">"+products.get(product)+"</small>" +
-                        "</div>" +
-                        "<span class=\"text-success\">&#8377;"+String.format("%.2f",product.getCost()*(100-product.getDiscount())*0.01*products.get(product))+"</span>" +
-                        "</li>");
-            }
-            Total += product.getCost()*(100-product.getDiscount())*0.01*products.get(product);
-            index++;
-        }
-
-        out.println("<li class=\"list-group-item d-flex justify-content-between\">\n" +
-                        "<span>Total (INR)</span>\n" +
-                        "<strong name='amount'>&#8377;"+String.format("%.2f",Total)+"</strong>\n" +
-                        "<input type=\"hidden\" name=\"amount\" value=\""+String.format("%.2f",Total)+"\">"+
-                    "</li>");
-    %>
-        </ul>
-    </div>
-    <div class="col-md-7 col-lg-8 ">
-        <h4 class="mb-3">Billing address</h4>
-        <div class="row g-3">
-            <div class="col-sm-6">
-                <label for="firstName" class="form-label">First name</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
-                <div class="invalid-feedback">
-                    Valid first name is required.
+                            out.println("<li class=\"list-group-item d-flex justify-content-between\">\n" +
+                                            "<span>Total (INR)</span>\n" +
+                                            "<strong name='amount'>&#8377;"+String.format("%.2f",Total)+"</strong>\n" +
+                                            "<input type=\"hidden\" name=\"amount\" value=\""+String.format("%.2f",Total)+"\">"+
+                                        "</li>");
+                        %>
+                    </ul>
                 </div>
-            </div>
+            <div class="col-md-7 col-lg-8 ">
+                <form action="/create-checkout-session" method="post">
+                    <h4 class="mb-3">Billing address</h4>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">First name</label>
+                            <input type="text" name="firstName" class="form-control" id="firstName" placeholder="" value="" required="">
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
 
-            <div class="col-sm-6">
-                <label for="lastName" class="form-label">Last name</label>
-                <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
-            </div>
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Last name</label>
+                            <input type="text" name="lastName" class="form-control" id="lastName" placeholder="" value="" required="">
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
+                        </div>
 
-            <div class="col-12">
-                <label for="address" class="form-label">Address</label>
-                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
-                <div class="invalid-feedback">
-                    Please enter your shipping address.
-                </div>
-            </div>
+                        <div class="col-12">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" name="address" class="form-control" id="address" placeholder="1234 Main St" required="">
+                            <div class="invalid-feedback">
+                                Please enter your shipping address.
+                            </div>
+                        </div>
 
-            <div class="col-12">
-                <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
-                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-            </div>
+                        <div class="col-12">
+                            <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+                            <input type="text" name="address2" class="form-control" id="address2" placeholder="Apartment or suite">
+                        </div>
 
-            <div class="col-md-3">
-                <label for="country" class="form-label">Country</label>
-                <select class="form-select" id="country" required="">
-                    <option>India</option>
-                </select>
-                <div class="invalid-feedback">
-                    Please select a valid country.
-                </div>
-            </div>
+                        <div class="col-md-3">
+                            <label for="country" class="form-label">Country</label>
+                            <select name="country" class="form-select" id="country" required="">
+                                <option>India</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid country.
+                            </div>
+                        </div>
 
-            <div class="col-md-5">
-                <label for="state" class="form-label">State</label>
-                <select class="form-select" name="state" id="state" required="">
-                    <option>Tamil Nadu</option>
-                </select>
-                <div class="invalid-feedback">
-                    Please provide a valid state.
-                </div>
-            </div>
+                        <div class="col-md-5">
+                            <label for="state" class="form-label">State</label>
+                            <select name="state" class="form-select" name="state" id="state" required="">
+                                <option>Tamil Nadu</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please provide a valid state.
+                            </div>
+                        </div>
 
-            <div class="col-md-4">
-                <label for="zip" class="form-label">Zip</label>
-                <input type="text" class="form-control" id="zip" placeholder="" required="">
-                <div class="invalid-feedback">
-                    Zip code required.
-                </div>
+                        <div class="col-md-4">
+                            <label for="zip" class="form-label">Zip</label>
+                            <input type="text" name="zipcode" class="form-control" id="zip" placeholder="" required="">
+                            <div class="invalid-feedback">
+                                Zip code required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <input class="w-100 btn btn-success btn-lg" type="submit" value="Continue to checkout"></input>
+                </form>
             </div>
         </div>
-
-        <hr class="my-4">
-
-
-        <button class="w-100 btn btn-success btn-lg" type="submit">Continue to checkout</button>
-
-    </div>
-    </div>
     </div>
 
 

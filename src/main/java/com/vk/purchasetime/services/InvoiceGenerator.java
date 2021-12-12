@@ -8,6 +8,7 @@ import com.vk.purchasetime.models.InvoicePrimary;
 import com.vk.purchasetime.models.Product;
 import com.vk.purchasetime.models.Profile;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 public class InvoiceGenerator {
@@ -17,13 +18,15 @@ public class InvoiceGenerator {
     public void createPdf(InvoicePrimary invoice, Profile profile, HashMap<Product,Integer> cart){
         //create a document instance
         Document doc = new Document();
+        String pattern = "MM-dd-yyyy hh:mm a";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
         //load the template file
         doc.loadFromFile("D:\\Data\\Java\\PurchaseTime\\PurchaseTimeInvoice.docx");
 
         //replace text in the document
         doc.replace("#InvoiceNum", String.valueOf(invoice.getInvoiceId()), true, true);
-        doc.replace("#InvoiceDate", invoice.getInvoiceDate().toString(), true, true);
+        doc.replace("#InvoiceDate", simpleDateFormat.format(invoice.getInvoiceDate()), true, true);
         doc.replace("#DeliveryType", profile.getProfileType().toString(), true, true);
         doc.replace("#UserName", invoice.getUser().getUsername(), true, true);
         doc.replace("#UserAddress", profile.getAddress(), true, true);
@@ -32,7 +35,7 @@ public class InvoiceGenerator {
         doc.replace("#Phone", invoice.getUser().getPhoneNumber(), true, true);
         doc.replace("#ProfileName", profile.getProfileName(), true, true);
         doc.replace("#ShippingAddress", profile.getAddress(), true, true);
-        doc.replace("#Phone2", profile.getPhoneNumber(), true, true);
+        doc.replace("#Phone2", invoice.getUser().getPhoneNumber(), true, true);
         doc.replace("#total", String.format("%.2f",invoice.getAmount()), true, true);
 
         //write the purchase data to the document
@@ -42,7 +45,10 @@ public class InvoiceGenerator {
         doc.isUpdateFields(true);
 
         //save file in pdf format
-        doc.saveToFile("Invoice.pdf", FileFormat.PDF);
+        doc.saveToFile("Invoice"+invoice.getInvoiceId()+".pdf", FileFormat.PDF);
+
+        EmailServicev1 emailServicev1 =new EmailServicev1();
+        emailServicev1.sendInvoice(invoice.getUser().getEmail(),"Purchase Time - Invoice"+invoice.getInvoiceId(),"Invoice"+invoice.getInvoiceId()+".pdf");
 
     }
 
@@ -57,12 +63,6 @@ public class InvoiceGenerator {
     }
 
     private static void fillTableWithData(Table table, HashMap<Product, Integer> data) {
-//        for (int r = 0; r < data.length; r++) {
-//            for (int c = 0; c < data[r].length; c++) {
-//                //fill data in cells
-//                table.getRows().get(r + 1).getCells().get(c).getParagraphs().get(0).setText(data[r][c]);
-//            }
-//        }
         int index=0;
         for (Product product : data.keySet()){
             double cost = product.getCost()*(100-product.getDiscount())*0.01;

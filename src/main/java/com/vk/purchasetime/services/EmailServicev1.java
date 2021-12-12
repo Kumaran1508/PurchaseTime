@@ -1,8 +1,15 @@
 package com.vk.purchasetime.services;
 
+import org.apache.commons.io.FilenameUtils;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 public class EmailServicev1 {
@@ -60,6 +67,59 @@ public class EmailServicev1 {
 
         // Send message
         Transport.send(message);
+    }
+
+    public void sendInvoice(String ToMail, String msg, String attachmentPath){
+
+            String to=ToMail;
+
+            Properties props = System.getProperties();
+            props.put("mail.smtp.host","smtp.gmail.com");
+            props.put("mail.smtp.auth", true);
+            props.put("mail.smtp.starttls.enable", true);
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+            Session session = Session.getDefaultInstance(props,
+                    new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(from,"login197");
+                        }
+                    });
+
+            try{
+                MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(from));
+                message.addRecipient(MimeMessage.RecipientType.TO,new InternetAddress(to));
+                message.setSubject("Email with attachment");
+
+
+                BodyPart messageBodyPart1 = new MimeBodyPart();
+                messageBodyPart1.setText(msg);
+
+
+                MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+
+                String filename = attachmentPath;
+                String fileName = FilenameUtils.getName(filename);
+                DataSource source = new FileDataSource(filename);
+                messageBodyPart2.setDataHandler(new DataHandler(source));
+                messageBodyPart2.setFileName(fileName);
+
+
+                Multipart multipart = new MimeMultipart();
+                multipart.addBodyPart(messageBodyPart1);
+                multipart.addBodyPart(messageBodyPart2);
+
+                message.setContent(multipart );
+
+                Transport.send(message);
+
+                System.out.println("mail with attachment sent....");
+            }catch (MessagingException ex) {ex.printStackTrace();}
+
     }
 
 

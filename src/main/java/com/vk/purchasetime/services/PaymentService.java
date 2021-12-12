@@ -22,7 +22,7 @@ public class PaymentService {
 
 
         // This is your test secret API key.
-        Stripe.apiKey = "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";
+        Stripe.apiKey = "sk_test_51K434zSHbrVpMbSJ1SszOJ54uhwVjKwvQOlSDfiH6fHHbLBwkpa94xENsw7finOGXJgfmUVoQ3CZAtCBfwaL8lu400jEWEPgso";
 
         String YOUR_DOMAIN = "http://localhost:8080";
         SessionCreateParams params =
@@ -36,7 +36,7 @@ public class PaymentService {
                                         .setPriceData(
                                                 SessionCreateParams.LineItem.PriceData.builder()
                                                         .setCurrency("inr")
-                                                        .setUnitAmount(Math.round(Double.parseDouble(amount))*100)
+                                                        .setUnitAmount(Math.round(Double.valueOf(amount))*100)
                                                         .setProductData(
                                                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                         .setName("Order")
@@ -54,6 +54,7 @@ public class PaymentService {
         }
 
         try {
+
             response.sendRedirect(session.getUrl());
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,14 +1,9 @@
 package com.vk.purchasetime.controllers;
 
 import com.vk.purchasetime.Test;
-import com.vk.purchasetime.models.Product;
-import com.vk.purchasetime.models.User;
-import com.vk.purchasetime.repositories.ProductRepository;
-import com.vk.purchasetime.repositories.UserRepository;
-import com.vk.purchasetime.services.EmailServicev1;
-import com.vk.purchasetime.services.PaymentService;
-import com.vk.purchasetime.services.SMSService;
-import com.vk.purchasetime.services.TokenGenerator;
+import com.vk.purchasetime.models.*;
+import com.vk.purchasetime.repositories.*;
+import com.vk.purchasetime.services.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
@@ -19,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -28,18 +24,22 @@ public class ShoppingController {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
+    private ProfileRepository profileRepository;
+    @Autowired
+    private InvoicePrimaryRepository invoicePrimaryRepository;
+    @Autowired
+    private InvoiceTransactionRepository invoiceTransactionRepository;
+
+    @Autowired
     private Test test;
 
 
     @PostMapping(value = "/login")
     public String doLogin(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request, Model model,HttpServletResponse response){
         User user = userRepository.findUserByUsernameAndPassword(username,Base64.getEncoder().encodeToString(password.getBytes()));
-        System.out.println(Base64.getEncoder().encodeToString(password.getBytes()));
         if (user==null)
             return "index";
         else{
-            user.setFlag(true);
-            userRepository.save(user);
             HttpSession session = request.getSession();
             session.setAttribute("username",user.getUsername());
             session.setAttribute("userid",user.getUserId());
@@ -176,10 +176,55 @@ public class ShoppingController {
 
     @RequestMapping(value = "/create-checkout-session",method = RequestMethod.POST)
     public void maketestpay(HttpServletResponse response,HttpServletRequest request){
-        test.checkShopping((HashMap<Product, Integer>) request.getSession().getAttribute("cart"));
+//        test.checkShopping();
+        User user = userRepository.findById((Integer) request.getSession().getAttribute("userid")).get();
+        Profile profile = new Profile(
+                request.getParameter("firstName")+" "+request.getParameter("lastName"),
+                request.getParameter("address")+"\n"+request.getParameter("address2"),
+                ProfileType.HOME
+        );
+        profile.setUser(user);
+        profile.setState("Tamil Nadu");
+        profile.setPincode(request.getParameter("zipcode"));
+        profileRepository.save(profile);
+        profile.getProfileId();
+
+        request.getSession().setAttribute("profile",profile);
 
         PaymentService paymentService = new PaymentService();
-        paymentService.makePayment(response,request.getParameter("amount"));
+        paymentService.makePayment(response, String.valueOf(request.getSession().getAttribute("amount")));
+
+
+    }
+
+    @RequestMapping(value = "/invoice",method = RequestMethod.GET)
+    public String bill(HttpServletRequest request){
+
+        User user = userRepository.findById((Integer) request.getSession().getAttribute("userid")).get();
+        Profile profile = (Profile) request.getSession().getAttribute("profile");
+        HashMap<Product,Integer> cart = (HashMap<Product, Integer>) request.getSession().getAttribute("cart");
+
+        //Write to Invoice Primary Table
+        InvoicePrimary invoicePrimary = new InvoicePrimary(new Date(),
+                Double.valueOf(String.valueOf(request.getSession().getAttribute("amount"))),
+                TransactionType.DEBIT_CARD);
+        invoicePrimary.setUser(user);
+        invoicePrimary.setProfile(profile);
+        invoicePrimaryRepository.save(invoicePrimary);
+
+        //Write to Invoice Transaction Table
+        for (Product product : cart.keySet()){
+            InvoiceTransaction invoiceTransaction = new InvoiceTransaction(new InvoiceTransactionId(invoicePrimary.getInvoiceId(),product.getProductId()),cart.get(product),product.getCost(),product.getDiscount());
+            invoiceTransactionRepository.save(invoiceTransaction);
+        }
+
+        //Create Invoice and send E-mail
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        invoiceGenerator.createPdf(invoicePrimary,profile,cart);
+
+
+
+        return "success";
     }
 
 //    @RequestMapping(value = "/logout",method = RequestMethod.POST)
@@ -200,22 +245,27 @@ public class ShoppingController {
         Enumeration<String> productIDs = request.getParameterNames();
 
         HashMap<Product,Integer> products = new HashMap<>();
+        double amt = 0.0;
         while(productIDs.hasMoreElements()){
             String productId = productIDs.nextElement();
             Product product = productRepository.findById(Integer.valueOf(productId)).get();
             int count = Integer.valueOf(request.getParameter(productId));
 
-            System.out.println(product.getProductName()+" "+count);
+
             if(count>0){
                 products.put(product,count);
+                amt += product.getCost()*(100-product.getDiscount())*0.01*count;
             }
-
 
             request.getSession().removeAttribute("products");
             request.getSession().setAttribute("cart",products);
+            request.getSession().setAttribute("amount",String.format("%.2f",amt));
 
-
-
+//            InvoicePrimary invoicePrimary = new InvoicePrimary(
+//                    new Date(),
+//                    Double.valueOf(request.getParameter("amount")),
+//
+//                    );
 
         }
         return "checkoutpage";
