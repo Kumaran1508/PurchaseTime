@@ -1,3 +1,5 @@
+<%@ page import="com.vk.purchasetime.models.ProductCategory" %>
+<%@ page import="com.vk.purchasetime.models.Product" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,37 +44,61 @@
 
 <div class="p-5"></div>
 <!--  Form  -->
-<main class="form-signin text-center">
-    <form action="login" method="post">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+<div style="align-self: center; padding-left: 200px; padding-right: 200px;" >
+    <main class="form-signin text-center">
+        <form action="/addproduct" method="post">
+            <h1 class="h3 mb-3 fw-normal">Product Details</h1>
 
-        <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" placeholder="Username" name="username" minlength="5" maxlength="15">
-            <label for="floatingInput">Username</label>
-        </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" minlength="8" maxlength="16">
-            <label for="floatingPassword">Password</label>
-        </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingname" placeholder="Product Name" name="productName" maxlength="15">
+                <label for="floatingname">Product Name</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingcost" placeholder="Product Cost" name="cost" >
+                <label for="floatingcost">Product Cost</label>
+            </div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-success" type="submit">Login</button>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingunit" placeholder="Unit(eg. kg)" name="unit">
+                <label for="floatingunit">Unit</label>
+            </div>
 
-        <div class="d-flex pt-3 justify-content-center align-items-center">
-            <a href="/forgotpassword" class="text-body">Forgot password?</a>
-        </div>
-        <div class="d-flex p-1 justify-content-center align-items-center">
-            <a href="/signup" class="text-body ">New User? Sign Up</a>
-        </div>
 
-    </form>
-</main>
-<div class="footer bg-success">
-    <p class="text-light text-center">&copy;2021</p>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingurl" placeholder="ProductURL" name="url" >
+                <label for="floatingurl">ProductImage URL</label>
+            </div>
+
+            <%ProductCategory grocery= ProductCategory.GROCERY;
+                ProductCategory electronics = ProductCategory.ELECTRONICS;
+                ProductCategory tools=ProductCategory.TOOLS;
+                ProductCategory wearables=ProductCategory.WEARABLES;
+                ProductCategory homeaccesories=ProductCategory.HOME_ACCESSORIES;
+            %>
+            <div class="form-floating">
+                <select class="form-select form-select-lg mb-3" id=floatingcategory aria-label=".form-select-lg example" name="category">
+                    <option value='<%= ProductCategory.GROCERY%>' >Grocery</option>
+                    <option value='<%= ProductCategory.ELECTRONICS%>'>Electronics</option>
+                    <option value=<%= ProductCategory.TOOLS%> ${param.category == tools ? '' : ''}>Tools</option>
+                    <option value=<%= ProductCategory.WEARABLES%> ${param.category == wearables ? '' : ''}>Wearables</option>
+                    <option value=<%= ProductCategory.HOME_ACCESSORIES%> ${param.category == homeaccesories ? '' : ''}>Home Accesories</option>
+                </select>
+                <label for="floatingcategory">Product Category</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingdiscount" placeholder="Product Discount" name="discount" >
+                <label for="floatingdiscount">Product Discount</label>
+            </div>
+            <br>
+            <button class="w-20 btn btn-lg btn-success" type="submit">Add Product</button>
+
+        </form>
+    </main>
+</div>
+<br><br><br><br><br>
+<div class="footer bg-success" style="padding: 10px;">
+    <p class="text-light text-center">© Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
 </div>
 
 

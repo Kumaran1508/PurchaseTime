@@ -291,6 +291,31 @@ public class ShoppingController {
         return "home";
     }
 
+    @RequestMapping(value = "/addproduct",method = RequestMethod.POST)
+    public String addproduct(@RequestParam("productName") final String productName,
+                             @RequestParam("cost") final String cost,
+                             @RequestParam("category") final String category,
+                             @RequestParam("discount") final String discount,
+                             @RequestParam("url") final String url,
+                             @RequestParam("unit") final String unit){
+
+        System.out.println(category);
+        Product product=new Product(productName,Double.parseDouble(cost),ProductCategory.valueOf(category),Double.parseDouble(discount),url);
+        product.setCategory(category);
+
+        productRepository.save(product);
+        return "index";
+
+    }
+
+    @RequestMapping(value = "/additems",method = RequestMethod.GET)
+    public String addproduct(){
+        return "addproduct";
+    }
+
+
+
+
 
 
 
