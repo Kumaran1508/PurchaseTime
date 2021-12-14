@@ -5,10 +5,14 @@ import com.vk.purchasetime.repositories.*;
 import com.vk.purchasetime.services.InvoiceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class Test implements CommandLineRunner {
@@ -49,14 +53,15 @@ public class Test implements CommandLineRunner {
 //        checkShopping(null);
 //        print();
 
-
-        
-
-
+        List<Product> productList = productRepository.findAll(PageRequest.of(0,2));
+        List<Product> productList2 = productRepository.findTop3ByOrderByDiscountDesc();
 
 
+        System.out.println(productList.size());
+        System.out.println(productList2.size());
 
 
+        for (Product product : productList2) System.out.println(product.getProductName());
     }
 
     void testUserProfile(){
@@ -181,4 +186,6 @@ public class Test implements CommandLineRunner {
 
 
     }
+
+
 }

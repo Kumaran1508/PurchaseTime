@@ -29,6 +29,10 @@ public class ShoppingController {
     private InvoicePrimaryRepository invoicePrimaryRepository;
     @Autowired
     private InvoiceTransactionRepository invoiceTransactionRepository;
+    @Autowired
+    private PaymentService paymentService;
+    @Autowired
+    private InvoiceGenerator invoiceGenerator;
 
     @Autowired
     private Test test;
@@ -191,7 +195,7 @@ public class ShoppingController {
 
         request.getSession().setAttribute("profile",profile);
 
-        PaymentService paymentService = new PaymentService();
+
         paymentService.makePayment(response, String.valueOf(request.getSession().getAttribute("amount")));
 
 
@@ -219,7 +223,6 @@ public class ShoppingController {
         }
 
         //Create Invoice and send E-mail
-        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
         invoiceGenerator.createPdf(invoicePrimary,profile,cart);
 
 

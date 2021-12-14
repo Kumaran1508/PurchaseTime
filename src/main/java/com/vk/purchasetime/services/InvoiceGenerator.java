@@ -7,10 +7,12 @@ import com.spire.doc.fields.Field;
 import com.vk.purchasetime.models.InvoicePrimary;
 import com.vk.purchasetime.models.Product;
 import com.vk.purchasetime.models.Profile;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
+@Component
 public class InvoiceGenerator {
 
 

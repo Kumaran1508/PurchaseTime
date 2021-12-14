@@ -61,10 +61,34 @@
 
     </header>
 </div>
-<div class="container">
-    <div class="row justify-content-center">
+<div class="container-fluid">
+    <div class="row">
+        <!--            Navbar    -->
+        <div class="col-sm-2">
+            <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column justify-content-start">
+                <a class="navbar-brand" href="#">Home</a>
+                <nav class="nav nav-pills flex-column">
+                    <a class="nav-link text-success" href="#item-1">Deals fo the day</a>
+                    <a class="nav-link text-success" href="#item-2">Top Selling</a>
+                    <%
+
+                        for (ProductCategory category : ProductCategory.values()){
+                            out.println("<a class=\"nav-link text-success\" href='#"+category.name()+"'>"+category.name()+"</a>");
+                        }
+                    %>
+
+                </nav>
+            </nav>
+        </div>
+
+
+        <div class="col-sm-10">
+        <div class="row justify-content-center">
         <%
             List<Product> products = (List<Product>) request.getSession().getAttribute("products");
+
+
+
 
             for(Product product : products){
                 out.println("<div class=\"col-lg-3 d-flex my-2\">" +
@@ -87,6 +111,7 @@
             }
 
         %>
+        </div></div>
 
 
     </div></div></form>
