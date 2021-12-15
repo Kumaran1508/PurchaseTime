@@ -55,10 +55,9 @@ public class Test implements CommandLineRunner {
 
 //        List<Product> productList = productRepository.findTop4ByOrderBySoldDesc();
 //        List<Product> productList2 = productRepository.findTop4ByOrderByDiscountDesc();
-//
-//
-//
 //        for (Product product : productList) System.out.println(product.getProductName());
+
+
     }
 
     void testUserProfile(){

@@ -24,7 +24,9 @@ public class InvoiceGenerator {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
         //load the template file
-        doc.loadFromFile("D:\\Data\\Java\\PurchaseTime\\PurchaseTimeInvoice.docx");
+        doc.loadFromFile(System.getProperty("user.dir").replace("\\","\\\\")+"\\PurchaseTimeInvoice.docx");
+
+
 
         //replace text in the document
         doc.replace("#InvoiceNum", String.valueOf(invoice.getInvoiceId()), true, true);

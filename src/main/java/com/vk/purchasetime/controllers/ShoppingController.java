@@ -238,7 +238,12 @@ public class ShoppingController {
         }
 
         //Create Invoice and send E-mail
-        invoiceGenerator.createPdf(invoicePrimary,profile,cart);
+        new Thread(){
+            @Override
+            public void run() {
+                invoiceGenerator.createPdf(invoicePrimary,profile,cart);
+            }
+        }.start();
 
 
 
