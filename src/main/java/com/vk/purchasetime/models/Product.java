@@ -17,6 +17,15 @@ public class Product {
     private String category;
     private double discount;
     private String url;
+    private long sold=0;
+
+    public long getSold() {
+        return sold;
+    }
+
+    public void setSold(long sold) {
+        this.sold = sold;
+    }
 
     public void setCategory(String category) {
         this.category = category;

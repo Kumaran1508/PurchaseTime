@@ -80,6 +80,14 @@ public class ShoppingController {
         if (request.getSession().getAttribute("username")!=null && flag){
             List<Product> productList = (List<Product>) productRepository.findAll();
             request.getSession().setAttribute("products",productList);
+
+            List<Product> topSelling = productRepository.findTop4ByOrderBySoldDesc();
+            request.getSession().setAttribute("topSelling",topSelling);
+
+            List<Product> topDeals = productRepository.findTop4ByOrderByDiscountDesc();
+            request.getSession().setAttribute("topDeals",topDeals);
+
+
             return "home";
         }
 
@@ -94,10 +102,15 @@ public class ShoppingController {
         if (request.getSession().getAttribute("username")!=null
                 && request.getSession().getAttribute("otpverified")!=null){
             List<Product> productList = (List<Product>) productRepository.findAll();
-
-
-
             request.getSession().setAttribute("products",productList);
+
+
+            List<Product> topSelling = productRepository.findTop4ByOrderBySoldDesc();
+            request.getSession().setAttribute("topSelling",topSelling);
+
+            List<Product> topDeals = productRepository.findTop4ByOrderByDiscountDesc();
+            request.getSession().setAttribute("topDeals",topDeals);
+
             return "home";
         }
 
@@ -218,6 +231,8 @@ public class ShoppingController {
 
         //Write to Invoice Transaction Table
         for (Product product : cart.keySet()){
+            product.setSold(product.getSold()+cart.get(product));
+            productRepository.save(product);
             InvoiceTransaction invoiceTransaction = new InvoiceTransaction(new InvoiceTransactionId(invoicePrimary.getInvoiceId(),product.getProductId()),cart.get(product),product.getCost(),product.getDiscount());
             invoiceTransactionRepository.save(invoiceTransaction);
         }
@@ -318,6 +333,44 @@ public class ShoppingController {
 
 
 
+    @RequestMapping(value = "/productid",method = RequestMethod.POST)
+    public String getproductid(@RequestParam("productId") final String productId,HttpServletRequest request)
+    {
+        if(productRepository.findById(Integer.parseInt(productId))!=null) {
+            Product product=productRepository.findByProductId(Integer.parseInt(productId));
+            request.getSession().setAttribute("editedid",productId);
+            request.getSession().setAttribute("editproduct",product);
+
+        }
+
+        return "editproduct";
+
+    }
+
+    @RequestMapping(value = "/editproduct",method = RequestMethod.POST)
+    public String editproduct(@RequestParam("productName") final String productName,
+                              @RequestParam("cost") final String cost,
+                              @RequestParam("category") final String category,
+                              @RequestParam("discount") final String discount,
+                              @RequestParam("url") final String url,
+                              HttpServletRequest request){
+
+        Product product=productRepository.findByProductId(Integer.parseInt((String)request.getSession().getAttribute("editedid")));
+        product.setProductName(productName);
+        product.setDiscount(Double.parseDouble(discount));
+        product.setCategory(category);
+        product.setCost(Double.parseDouble(cost));
+        product.setUrl(url);
+        productRepository.save(product);
+        return "addproduct";
+    }
+
+    @RequestMapping(value = "/editproduct",method = RequestMethod.POST,params = "delete")
+    public String deleteproduct(HttpServletRequest request){
+        Product product=productRepository.findByProductId(Integer.parseInt((String)request.getSession().getAttribute("editedid")));
+        productRepository.delete(product);
+        return "addproduct";
+    }
 
 
 

@@ -53,15 +53,12 @@ public class Test implements CommandLineRunner {
 //        checkShopping(null);
 //        print();
 
-        List<Product> productList = productRepository.findAll(PageRequest.of(0,2));
-        List<Product> productList2 = productRepository.findTop3ByOrderByDiscountDesc();
-
-
-        System.out.println(productList.size());
-        System.out.println(productList2.size());
-
-
-        for (Product product : productList2) System.out.println(product.getProductName());
+//        List<Product> productList = productRepository.findTop4ByOrderBySoldDesc();
+//        List<Product> productList2 = productRepository.findTop4ByOrderByDiscountDesc();
+//
+//
+//
+//        for (Product product : productList) System.out.println(product.getProductName());
     }
 
     void testUserProfile(){

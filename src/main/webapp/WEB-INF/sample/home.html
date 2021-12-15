@@ -28,9 +28,17 @@
         }
     </style>
     <script>
-        function change(sign){
-            if (sign=='-' && document.getElementById("prodid").value>0) document.getElementById("prodid").value--;
-            else if (sign=='+') document.getElementById("prodid").value++;
+        function change(sign,input){
+            if (sign=='-' && document.getElementById("prodid").value>0) document.getElementsByName(input.value).forEach(subract);
+            else if (sign=='+') document.getElementsByName(input.value).forEach(add)
+        }
+
+        function add(element){
+            element.value++;
+        }
+
+        function subract(element){
+            element.value--;
         }
     </script>
 </head>
@@ -100,9 +108,9 @@
                                 <h5 class="card-title"><s class="text-muted">(1243)</s>500</h5>
                                 <p>Discount : 34%</p>
                                 <div class="input-group mb-2">
-                                    <button onclick="change('-')" class="input-group-text btn btn-outline-success">-</button>
+                                    <button onclick="change('-',this)" class="input-group-text btn btn-outline-success" value="count">-</button>
                                     <input type="number" class="form-control col-2 text-center" name="count" id="prodid" value="0">
-                                    <button type="button" onclick="change('+')" class="input-group-text btn btn-outline-success">+</button>
+                                    <button type="button" onclick="change('+',this)" class="input-group-text btn btn-outline-success" value="count">+</button>
                                 </div>
                             </div>
                         </div>
@@ -112,9 +120,16 @@
                         <div class="card">
                             <img class="card-img-top shadow-sm" src="https://us.123rf.com/450wm/kolesnikovserg/kolesnikovserg1706/kolesnikovserg170600595/80621668-dates-in-a-wooden-bowl-with-a-mint-leaf-isolated-on-white-background.jpg?ver=6" ">
                             <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <h5 class="card-title">Cashew</h5>
+                                <h6 class="card-text">GROCERY</h6>
+
+                                <h5 class="card-title"><s class="text-muted">(1243)</s>500</h5>
+                                <p>Discount : 34%</p>
+                                <div class="input-group mb-2">
+                                    <button onclick="change('-',this)" class="input-group-text btn btn-outline-success" value="count">-</button>
+                                    <input type="number" class="form-control col-2 text-center" name="count" id="prodid" value="0">
+                                    <button type="button" onclick="change('+',this)" class="input-group-text btn btn-outline-success" value="count">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -4,6 +4,5 @@ public enum ProductCategory {
     HOME_ACCESSORIES,
     ELECTRONICS,
     GROCERY,
-    WEARABLES,
     TOOLS
 }

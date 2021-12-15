@@ -8,7 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ProductRepository extends CrudRepository<Product,Integer> {
-    public List<Product> findAllByOrderByDiscountDesc();
-    public List<Product> findTop3ByOrderByDiscountDesc();
+    public List<Product> findTop4ByOrderByDiscountDesc();
+    public List<Product> findTop4ByOrderBySoldDesc();
     public List<Product> findAll(Pageable pageable);
+    public Product findByProductId(int id);
 }

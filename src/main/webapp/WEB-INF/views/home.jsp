@@ -35,9 +35,22 @@
         }
     </style>
     <script>
+        // function change(sign,input){
+        //     if (sign=='-' && document.getElementById(input.value).value>0) document.getElementById(input.value).value--;
+        //     else if (sign=='+') document.getElementById(input.value).value++;
+        // }
+
         function change(sign,input){
-            if (sign=='-' && document.getElementById(input.value).value>0) document.getElementById(input.value).value--;
-            else if (sign=='+') document.getElementById(input.value).value++;
+            if (sign=='-' && document.getElementById(input.value).value>0) document.getElementsByName(input.value).forEach(subract);
+            else if (sign=='+') document.getElementsByName(input.value).forEach(add)
+        }
+
+        function add(element){
+            element.value++;
+        }
+
+        function subract(element){
+            element.value--;
         }
     </script>
 </head>
@@ -68,8 +81,8 @@
             <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column justify-content-start">
                 <a class="navbar-brand" href="#">Home</a>
                 <nav class="nav nav-pills flex-column">
-                    <a class="nav-link text-success" href="#item-1">Deals fo the day</a>
-                    <a class="nav-link text-success" href="#item-2">Top Selling</a>
+                    <a class="nav-link text-success" href="#topSelling">Deals fo the day</a>
+                    <a class="nav-link text-success" href="#topDeals">Top Selling</a>
                     <%
 
                         for (ProductCategory category : ProductCategory.values()){
@@ -87,9 +100,88 @@
         <%
             List<Product> products = (List<Product>) request.getSession().getAttribute("products");
 
+            List<Product> topDeals = (List<Product>) request.getSession().getAttribute("topDeals");
+
+            List<Product> topSelling = (List<Product>) request.getSession().getAttribute("topSelling");
+
+            out.println("<h3 id='topSelling'>Top Selling</h3>");
+
+            for (Product product : topSelling){
+                out.println("<div class=\"col-lg-3 d-flex my-2\">" +
+                        "<div class=\"card\">\n" +
+                        "<img class=\"card-img-top shadow-sm\" src="+product.getUrl()+" class=\"card-img-top\" alt=\"...\">\n" +
+                        "<div class=\"card-body\">\n" +
+                        "<h5 class=\"card-title\">"+product.getProductName()+"</h5>\n" +
+                        "<h6 class=\"card-text\">"+product.getCategory()+"</h6>\n" +
+                        "<h5 class=\"card-title\"><s class=\"text-muted\">(&#8377;"
+                        +String.format("%.2f",product.getCost())+")</s>&#8377;"+String.format("%.2f",product.getCost()*(100-product.getDiscount())*0.01)+"</h5>\n" +
+                        "<p>Discount : "+(int) product.getDiscount()+"%</p>\n" +
+                        "<div class=\"input-group mb-2\">\n" +
+                        "<button type='button' onclick=\"change('-',this)\" value='"+product.getProductId()+"' class=\"input-group-text btn btn-outline-success\">-</button>\n" +
+                        "<input type=\"number\" class=\"form-control col-2 text-center\" id='"+product.getProductId()+"' name='"+product.getProductId()+"' value=\"0\">" +
+                        "<button type='button' onclick=\"change('+',this)\" value='"+product.getProductId()+"' class=\"input-group-text btn btn-outline-success\">+</button>\n" +
+                        "</div>"+
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>"
+                );
+            }
+
+            out.println("<h3 id='topSelling'>Deals of the Day</h3>");
+
+            for (Product product : topDeals){
+                out.println("<div class=\"col-lg-3 d-flex my-2\">" +
+                        "<div class=\"card\">\n" +
+                        "<img class=\"card-img-top shadow-sm\" src="+product.getUrl()+" class=\"card-img-top\" alt=\"...\">\n" +
+                        "<div class=\"card-body\">\n" +
+                        "<h5 class=\"card-title\">"+product.getProductName()+"</h5>\n" +
+                        "<h6 class=\"card-text\">"+product.getCategory()+"</h6>\n" +
+                        "<h5 class=\"card-title\"><s class=\"text-muted\">(&#8377;"
+                        +String.format("%.2f",product.getCost())+")</s>&#8377;"+String.format("%.2f",product.getCost()*(100-product.getDiscount())*0.01)+"</h5>\n" +
+                        "<p>Discount : "+(int) product.getDiscount()+"%</p>\n" +
+                        "<div class=\"input-group mb-2\">\n" +
+                        "<button type='button' onclick=\"change('-',this)\" value='"+product.getProductId()+"' class=\"input-group-text btn btn-outline-success\">-</button>\n" +
+                        "<input type=\"number\" class=\"form-control col-2 text-center\" id='"+product.getProductId()+"' name='"+product.getProductId()+"' value=\"0\">" +
+                        "<button type='button' onclick=\"change('+',this)\" value='"+product.getProductId()+"' class=\"input-group-text btn btn-outline-success\">+</button>\n" +
+                        "</div>"+
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>"
+                );
+            }
 
 
 
+
+            //category wise
+            for (ProductCategory category : ProductCategory.values()){
+                out.println("<h3 id='"+category.name()+"'>"+category.name()+"</h3>");
+
+                for (Product product : products){
+                    if (product.getCategory()==category){
+                        out.println("<div class=\"col-lg-3 d-flex my-2\">" +
+                                "<div class=\"card\">\n" +
+                                "<img class=\"card-img-top shadow-sm\" src="+product.getUrl()+" class=\"card-img-top\" alt=\"...\">\n" +
+                                "<div class=\"card-body\">\n" +
+                                "<h5 class=\"card-title\">"+product.getProductName()+"</h5>\n" +
+                                "<h6 class=\"card-text\">"+product.getCategory()+"</h6>\n" +
+                                "<h5 class=\"card-title\"><s class=\"text-muted\">(&#8377;"
+                                +String.format("%.2f",product.getCost())+")</s>&#8377;"+String.format("%.2f",product.getCost()*(100-product.getDiscount())*0.01)+"</h5>\n" +
+                                "<p>Discount : "+(int) product.getDiscount()+"%</p>\n" +
+                                "<div class=\"input-group mb-2\">\n" +
+                                "<button type='button' onclick=\"change('-',this)\" value='"+product.getProductId()+"' class=\"input-group-text btn btn-outline-success\">-</button>\n" +
+                                "<input type=\"number\" class=\"form-control col-2 text-center\" id='"+product.getProductId()+"' name='"+product.getProductId()+"' value=\"0\">" +
+                                "<button type='button' onclick=\"change('+',this)\" value='"+product.getProductId()+"' class=\"input-group-text btn btn-outline-success\">+</button>\n" +
+                                "</div>"+
+                                "</div>\n" +
+                                "</div>\n" +
+                                "</div>");
+                    }
+                }
+            }
+
+
+            out.println("<h3>"+"All Products"+"</h3>");
             for(Product product : products){
                 out.println("<div class=\"col-lg-3 d-flex my-2\">" +
                                 "<div class=\"card\">\n" +
@@ -116,7 +208,7 @@
 
     </div></div></form>
 <footer>
-    <div class="footer bg-success" style="position: fixed;">
+    <div class="bg-success">
         <p class="text-light text-center" style="padding: 1%; margin-top: 1px; margin-bottom: 1px;">© Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
     </div>
 </footer>

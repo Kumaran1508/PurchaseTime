@@ -46,34 +46,32 @@
 <!--  Form  -->
 <div style="align-self: center; padding-left: 200px; padding-right: 200px;" >
     <main class="form-signin text-center">
-        <form action="/addproduct" method="post">
+        <form action="/editproduct" method="post">
             <h1 class="h3 mb-3 fw-normal">Product Details</h1>
+<%
+Product product=(Product) request.getSession().getAttribute("editproduct");
 
+%>
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingname" placeholder="Product Name" name="productName" maxlength="15">
+                <input type="text" class="form-control" id="floatingname" placeholder="Product Name" value='<%=product.getProductName()%>' name="productName" maxlength="15">
                 <label for="floatingname">Product Name</label>
             </div>
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingcost" placeholder="Product Cost" name="cost" >
+                <input type="text" class="form-control" id="floatingcost" placeholder="Product Cost" value='<%=product.getCost()%>'name="cost" >
                 <label for="floatingcost">Product Cost</label>
             </div>
 
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingunit" placeholder="Unit(eg. kg)" name="unit">
+                <input type="text" class="form-control" id="floatingunit" placeholder="Unit(eg. kg)" value='<%=product.getDiscount()%>'ame="unit">
                 <label for="floatingunit">Unit</label>
             </div>
 
 
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingurl" placeholder="ProductURL" name="url" >
+                <input type="text" class="form-control" id="floatingurl" placeholder="ProductURL" name="url" value='<%=product.getUrl()%>'>
                 <label for="floatingurl">ProductImage URL</label>
             </div>
 
-            <%ProductCategory grocery= ProductCategory.GROCERY;
-                ProductCategory electronics = ProductCategory.ELECTRONICS;
-                ProductCategory tools=ProductCategory.TOOLS;
-                ProductCategory homeaccesories=ProductCategory.HOME_ACCESSORIES;
-            %>
             <div class="form-floating">
                 <select class="form-select form-select-lg mb-3" id=floatingcategory aria-label=".form-select-lg example" name="category">
                     <option value='<%= ProductCategory.GROCERY%>' >Grocery</option>
@@ -85,26 +83,20 @@
             </div>
 
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingdiscount" placeholder="Product Discount" name="discount" >
+                <input type="text" class="form-control" id="floatingdiscount" placeholder="Product Discount" name="discount" value='<%=product.getDiscount()%>'>
                 <label for="floatingdiscount">Product Discount</label>
             </div>
             <br>
-            <button class="w-20 btn btn-lg btn-success" type="submit">Add Product</button>
+            <button class="w-20 btn btn-lg btn-success" type="submit">Save Edited</button>
+            <br>
+            <button class="w-20 btn btn-lg btn-danger" type="submit" name="delete">delete product</button>
 
         </form>
-        <br>
-    <form action="/productid" method="post">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="floatingid" placeholder="Product Id" name="productId" maxlength="15">
-            <label for="floatingid">Product Id</label>
-        </div>
-        <br>
-        <button class="w-20 btn btn-lg btn-success" type="submit">Edit/Delete Product</button>
-    </form>
+
     </main>
 </div>
 <br><br><br><br><br>
-<div class="footer bg-success" style="padding: 10px; bottom:-200px">
+<div class="footer bg-success" style="padding: 10px; bottom: -200px;">
     <p class="text-light text-center">© Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
 </div>
 
