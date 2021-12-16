@@ -17,11 +17,11 @@ public class SMSService {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Random r=new Random();
         String otp = String.format("%04d", r.nextInt(10000));
-        Message message = Message
-                .creator(new PhoneNumber(toNumber),
-                        new PhoneNumber("+12182198505"),
-                        otp)
-                .create();
+//        Message message = Message
+//                .creator(new PhoneNumber(toNumber),
+//                        new PhoneNumber("+12182198505"),
+//                        otp)
+//                .create();
 //        System.out.println("sms sent"+message.getSid());
         return otp;
     }
