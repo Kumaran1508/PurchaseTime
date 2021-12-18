@@ -1,4 +1,10 @@
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
 <!DOCTYPE html>
+
+<%
+    String lang = (String) request.getSession().getAttribute("lang");
+%>
+
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +17,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
     <link rel="icon" href="\assets\imgs\logo-light.png">
     <meta charset="UTF-8">
-    <title>Purchase Time - login</title>
+    <title><% out.println(LanguageSupportService.get("login",lang)); %></title>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -34,7 +40,7 @@
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-12 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
             <img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
-            <h3 class="text-success align-self-center">Purhcase Time</h3>
+            <h3 class="text-success align-self-center"><% out.println(LanguageSupportService.get("apptitle",lang)); %></h3>
         </div>
 
     </header>
@@ -44,35 +50,31 @@
 <!--  Form  -->
 <main class="form-signin text-center">
     <form action="login" method="post">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 fw-normal"><% out.println(LanguageSupportService.get("pleaselogin",lang)); %></h1>
 
         <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" placeholder="Username" name="username" minlength="5" maxlength="15">
-            <label for="floatingInput">Username</label>
+            <input type="text" class="form-control" id="floatingInput" placeholder="<% out.println(LanguageSupportService.get("username",lang)); %>" name="username" minlength="5" maxlength="15">
+            <label for="floatingInput"><% out.println(LanguageSupportService.get("username",lang)); %></label>
         </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" minlength="8" maxlength="16">
-            <label for="floatingPassword">Password</label>
+        <div class="form-floating mt-1">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="<% out.println(LanguageSupportService.get("password",lang)); %>" name="password" minlength="8" maxlength="16">
+            <label for="floatingPassword"><% out.println(LanguageSupportService.get("password",lang)); %></label>
         </div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-success" type="submit">Login</button>
+
+        <button class="w-100 btn btn-lg btn-success" type="submit"><% out.println(LanguageSupportService.get("login",lang)); %></button>
 
         <div class="d-flex pt-3 justify-content-center align-items-center">
-            <a href="/forgotpassword" class="text-body">Forgot password?</a>
+            <a href="/forgotpassword" class="text-body"><% out.println(LanguageSupportService.get("forgotpassword",lang)); %></a>
         </div>
         <div class="d-flex p-1 justify-content-center align-items-center">
-            <a href="/signup" class="text-body ">New User? Sign Up</a>
+            <a href="/signup" class="text-body "><% out.println(LanguageSupportService.get("newuser",lang)); %></a>
         </div>
 
     </form>
 </main>
 <div class="footer bg-success">
-    <p class="text-light text-center">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+    <p class="text-light text-center"><% out.println(LanguageSupportService.get("footertext",lang)); %></p>
 </div>
 
 

@@ -2,6 +2,7 @@ package com.vk.purchasetime;
 
 import com.vk.purchasetime.models.*;
 import com.vk.purchasetime.repositories.*;
+import com.vk.purchasetime.services.ClientProperties;
 import com.vk.purchasetime.services.InvoiceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -60,6 +61,13 @@ public class Test implements CommandLineRunner {
 //        print();
 
 //        reportgeneration();
+
+//        testProperties();
+    }
+
+    private void testProperties(){
+        ClientProperties properties = new ClientProperties();
+        System.out.println(properties.toString());
     }
 
     private void reportgeneration() {

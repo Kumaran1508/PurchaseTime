@@ -8,6 +8,7 @@ import com.stripe.model.Product;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,13 +20,15 @@ import java.util.Map;
 
 @Component
 public class PaymentService {
+    @Autowired
+    private ClientProperties clientProperties;
+
     public void makePayment(HttpServletResponse response, String amount){
 
-
         // This is your test secret API key.
-        Stripe.apiKey = "sk_test_51K434zSHbrVpMbSJ1SszOJ54uhwVjKwvQOlSDfiH6fHHbLBwkpa94xENsw7finOGXJgfmUVoQ3CZAtCBfwaL8lu400jEWEPgso";
+        Stripe.apiKey = clientProperties.getPaymentApiKey();
 
-        String YOUR_DOMAIN = "http://localhost:8080";
+        String YOUR_DOMAIN = clientProperties.getDomainName();
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)

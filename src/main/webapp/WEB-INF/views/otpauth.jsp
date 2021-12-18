@@ -1,3 +1,8 @@
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
+<%
+	String lang = (String) request.getSession().getAttribute("lang");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +20,7 @@
 
 
 	<meta charset="UTF-8">
-	<title>OTP Authentication</title>
+	<title><% out.println(LanguageSupportService.get("otpauth",lang)); %></title>
 	<style>
 		.bd-placeholder-img {
 			font-size: 1.125rem;
@@ -38,7 +43,7 @@
 	<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 		<div class="col-12 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
 			<img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
-			<h3 class="text-success align-self-center">Purhcase Time</h3>
+			<h3 class="text-success align-self-center"><% out.println(LanguageSupportService.get("apptitle",lang)); %></h3>
 		</div>
 
 	</header>
@@ -48,19 +53,19 @@
 <!--  Form  -->
 <main class="form-signin text-center">
 	<form action="home" method="post">
-		<h1 class="h3 mb-3 fw-normal">Enter OTP</h1>
+		<h1 class="h3 mb-3 fw-normal"><% out.println(LanguageSupportService.get("enterotp",lang)); %></h1>
 
 		<div class="form-floating">
-			<input type="number" class="form-control" id="floatingInput" placeholder="Enter OTP" name="enteredOTP">
+			<input type="number" class="form-control" id="floatingInput" placeholder="<% out.println(LanguageSupportService.get("enterotp",lang)); %>" name="enteredOTP">
 			<label for="floatingInput">OTP</label>
 		</div>
 
-		<button class="w-100 mt-3 btn btn-lg btn-success" type="submit">SUBMIT</button>
+		<button class="w-100 mt-3 btn btn-lg btn-success" type="submit"><% out.println(LanguageSupportService.get("submit",lang)); %></button>
 
 	</form>
 </main>
 <div class="footer bg-success">
-	<p class="text-light text-center">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+	<p class="text-light text-center"><% out.println(LanguageSupportService.get("footertext",lang)); %></p>
 </div>
 
 

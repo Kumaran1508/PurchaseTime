@@ -1,6 +1,7 @@
 package com.vk.purchasetime.services;
 
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -14,8 +15,10 @@ import java.util.Properties;
 
 public class EmailServicev1 {
 
+    private ClientProperties clientProperties=new ClientProperties();
+
     // Sender's components.email ID needs to be mentioned
-    private final String from = "kumaran201907@gmail.com";
+    private final String from = clientProperties.getMailId();
 
     // Assuming you are sending components.email from through gmails smtp
     private final String host = "smtp.gmail.com";
@@ -63,7 +66,7 @@ public class EmailServicev1 {
 
         // Now set the actual message
         message.setText("Please use the below link to reset your password for PurchaseTime!\n"
-                +"http://localhost:8080/resetpassword?authtoken="+authToken);
+                +clientProperties.getDomainName()+"/resetpassword?authtoken="+authToken);
 
         // Send message
         Transport.send(message);
@@ -85,7 +88,7 @@ public class EmailServicev1 {
             Session session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(from,"login197");
+                            return new PasswordAuthentication(from, clientProperties.getMailPassword());
                         }
                     });
 

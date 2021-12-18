@@ -9,6 +9,8 @@ import org.apache.tomcat.util.file.ConfigurationSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -69,6 +74,10 @@ public class ShoppingController {
 
         List<Product> topDeals = productRepository.findTop4ByOrderByDiscountDesc();
         request.getSession().setAttribute("topDeals",topDeals);
+
+        if (request.getSession().getAttribute("lang")==null)
+            request.getSession().setAttribute("lang","en");
+
         return "home";
     }
     @GetMapping(value = "/myorders")
@@ -172,6 +181,11 @@ public class ShoppingController {
 
         return "success";
     }
+
+//    @RequestMapping(value = "/success",method = RequestMethod.GET)
+//    public String succeed(){
+//        return "success";
+//    }
 
 
     @RequestMapping(value = "/checkout-products",method = RequestMethod.POST)
@@ -329,33 +343,18 @@ public class ShoppingController {
             System.out.println(filepath);
             Path path = Paths.get(filepath);
 
-            String filename = "tutorials.xlsx";
+            String filename = "report.xlsx";
             byte[] encoded = Files.readAllBytes(path);
             ByteArrayInputStream is= new ByteArrayInputStream(encoded);
             InputStreamResource file = new InputStreamResource(is);
+
+            Cookie cookie = new Cookie("PTlang","en");
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                     .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
                     .body(file);
 
-//            File f = new File(filepath);
-//                    httpServletResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-//            httpServletResponse.setContentLength((int) f.length());
-//            httpServletResponse.setHeader("Content-Disposition", "attachment; filename=PaymentDetails.xlsx");
-//            FileCopyUtils.copy(f,httpServletResponse.getOutputStream());
-//            httpServletResponse.flushBuffer();
-//
-//            byte[] encoded = Files.readAllBytes(path);
-//            String result= StandardCharsets.UTF_8.decode(ByteBuffer.wrap(encoded)).toString();
-//
-//            InputStream is = new ByteArrayInputStream(result.getBytes("UTF-8"));
-//
-//            return ResponseEntity.ok()
-//                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=reports.xlsx")
-//                    .contentLength(filepath.length())
-//                    .contentType(MediaType.valueOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"))
-//                    .body(is);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -363,6 +362,16 @@ public class ShoppingController {
 
 
      //   return "addproduct";
+    }
+
+
+
+
+    @GetMapping(value = "/lang")
+    public String changeLanguage(@RequestParam("l") String l,HttpServletRequest request,HttpServletResponse response){
+        request.getSession().setAttribute("lang",l);
+        LanguageSupportService.localeResolver().setLocale(request,response,new Locale(l));
+        return "home";
     }
 
 

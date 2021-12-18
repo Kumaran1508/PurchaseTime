@@ -1,4 +1,8 @@
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
 <html>
+<%
+    String lang = (String) request.getSession().getAttribute("lang");
+%>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
 </head>
@@ -41,8 +45,8 @@
     <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
         <i class="checkmark">&check;</i>
     </div>
-    <h1>Success</h1>
-    <p>Thanks for placing order!<br/> Your Order will be delivered soon</p>
+    <h1><% out.println(LanguageSupportService.get("success",lang)); %></h1>
+    <p><% out.println(LanguageSupportService.get("tfpo",lang)); %><br/> <% out.println(LanguageSupportService.get("yods",lang)); %></p>
 </div>
 </body>
 </html>

@@ -36,13 +36,18 @@ public class UserController {
     private PaymentService paymentService;
     @Autowired
     private InvoiceGenerator invoiceGenerator;
+    @Autowired
+    private ClientProperties clientProperties;
 
     @Autowired
     private Test test;
 
     @PostMapping(value = "/login")
     public String doLogin(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request, Model model, HttpServletResponse response){
-        if (username.contentEquals("admin") & password.contentEquals("Admin@123")) return "addproduct";
+        if (request.getSession().getAttribute("lang")==null)
+            request.getSession().setAttribute("lang","en");
+
+        if (username.contentEquals(clientProperties.getAdminUserName()) & password.contentEquals(clientProperties.getAdminPassword())) return "addproduct";
         User user = userRepository.findUserByUsernameAndPassword(username, Base64.getEncoder().encodeToString(password.getBytes()));
         if (user==null)
             return "index";
@@ -54,7 +59,7 @@ public class UserController {
             model.addAttribute("products",productList);
 
             SMSService smsService = new SMSService();
-            String otp = smsService.smsSender("+916369463739");
+            String otp = smsService.smsSender(user.getPhoneNumber());
             session.setAttribute("otp",otp);
             System.out.println(otp);
             return "otpauth";
@@ -128,6 +133,7 @@ public class UserController {
         User user = userRepository.findUserByResetPassToken(token);
         if (user!=null){
             request.getSession().setAttribute("userid",user.getUserId());
+            request.getSession().setAttribute("lang","ta");
             return "resetpassword";
         }
 
@@ -173,7 +179,18 @@ public class UserController {
     @RequestMapping(value = "/logout",method = RequestMethod.GET)
     public String logoutG(HttpServletRequest request){
         request.getSession().invalidate();
-        return "index";
+        request.getSession().setAttribute("lang","en");
+
+        List<Product> productList = (List<Product>) productRepository.findAll();
+        request.getSession().setAttribute("products",productList);
+
+
+        List<Product> topSelling = productRepository.findTop4ByOrderBySoldDesc();
+        request.getSession().setAttribute("topSelling",topSelling);
+
+        List<Product> topDeals = productRepository.findTop4ByOrderByDiscountDesc();
+        request.getSession().setAttribute("topDeals",topDeals);
+        return "home";
     }
 
 }
