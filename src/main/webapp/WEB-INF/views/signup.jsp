@@ -79,7 +79,7 @@
     </form>
 </main>
 <div class="footer bg-success">
-    <p class="text-light text-center">&copy;2021</p>
+    <p class="text-light text-center">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
 </div>
 
 

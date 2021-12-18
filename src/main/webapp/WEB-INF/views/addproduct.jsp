@@ -41,71 +41,93 @@
 
     </header>
 </div>
-
-<div class="p-5"></div>
 <!--  Form  -->
-<div style="align-self: center; padding-left: 200px; padding-right: 200px;" >
-    <main class="form-signin text-center">
-        <form action="/addproduct" method="post">
-            <h1 class="h3 mb-3 fw-normal">Product Details</h1>
+<div style="align-self: center;" >
+    <main class="text-center">
+        <div class="row align-items-center">
+            <div class="col-4 form-signin">
+                <form action="/addproduct" method="post">
+                    <h1 class="h3 mb-3 fw-normal">Product Details</h1>
 
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingname" placeholder="Product Name" name="productName" maxlength="15">
-                <label for="floatingname">Product Name</label>
+                    <div class="form-floating m-1">
+                        <input type="text" class="form-control" id="floatingname" placeholder="Product Name" name="productName" maxlength="15">
+                        <label for="floatingname">Product Name</label>
+                    </div>
+                    <div class="form-floating m-1">
+                        <input type="text" class="form-control" id="floatingcost" placeholder="Product Cost" name="cost" >
+                        <label for="floatingcost">Product Cost</label>
+                    </div>
+
+                    <div class="form-floating m-1">
+                        <input type="text" class="form-control" id="floatingunit" placeholder="Unit(eg. kg)" name="unit">
+                        <label for="floatingunit">Unit</label>
+                    </div>
+
+
+                    <div class="form-floating m-1">
+                        <input type="text" class="form-control" id="floatingurl" placeholder="ProductURL" name="url" >
+                        <label for="floatingurl">ProductImage URL</label>
+                    </div>
+
+
+                    <div class="form-floating m-1">
+                        <select class="form-select form-select-sm mb-1" id=floatingcategory aria-label=".form-select-lg example" name="category">
+                            <%
+                                ProductCategory[] categories = ProductCategory.values();
+                                for (ProductCategory category:categories){
+                                    out.println("<option class='' value='"+category.name()+"'>"+category.name()+"</option>");
+                                }
+                            %>
+                        </select>
+                        <label for="floatingcategory">Product Category</label>
+                    </div>
+
+                    <div class="form-floating m-1">
+                        <input type="text" class="form-control" id="floatingdiscount" placeholder="Product Discount" name="discount" >
+                        <label for="floatingdiscount">Product Discount</label>
+                    </div>
+                    <br>
+                    <button class="w-20 btn btn btn-success" type="submit">Add Product</button>
+
+                </form>
             </div>
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingcost" placeholder="Product Cost" name="cost" >
-                <label for="floatingcost">Product Cost</label>
-            </div>
-
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingunit" placeholder="Unit(eg. kg)" name="unit">
-                <label for="floatingunit">Unit</label>
-            </div>
-
-
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingurl" placeholder="ProductURL" name="url" >
-                <label for="floatingurl">ProductImage URL</label>
-            </div>
-
-            <%ProductCategory grocery= ProductCategory.GROCERY;
-                ProductCategory electronics = ProductCategory.ELECTRONICS;
-                ProductCategory tools=ProductCategory.TOOLS;
-                ProductCategory homeaccesories=ProductCategory.HOME_ACCESSORIES;
-            %>
-            <div class="form-floating">
-                <select class="form-select form-select-lg mb-3" id=floatingcategory aria-label=".form-select-lg example" name="category">
-                    <option value='<%= ProductCategory.GROCERY%>' >Grocery</option>
-                    <option value='<%= ProductCategory.ELECTRONICS%>'>Electronics</option>
-                    <option value=<%= ProductCategory.TOOLS%> >Tools</option>
-                    <option value=<%= ProductCategory.HOME_ACCESSORIES%> >Home Accesories</option>
-                </select>
-                <label for="floatingcategory">Product Category</label>
-            </div>
-
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingdiscount" placeholder="Product Discount" name="discount" >
-                <label for="floatingdiscount">Product Discount</label>
-            </div>
-            <br>
-            <button class="w-20 btn btn-lg btn-success" type="submit">Add Product</button>
-
-        </form>
-        <br>
-    <form action="/productid" method="post">
+            <div class="col-4 form-signin">
+    <form action="/getreport" method="post">
+        <h1 class="h3 mb-3 fw-normal">Invoice Report</h1>
         <div class="form-floating">
-            <input type="text" class="form-control" id="floatingid" placeholder="Product Id" name="productId" maxlength="15">
-            <label for="floatingid">Product Id</label>
+            <input type="date" class="form-control" id="fromdate" placeholder="From Date" name="fromdate">
+            <label for="fromdate">Invoice From </label>
+        </div>
+        <div class="form-floating mt-1">
+            <input type="date" class="form-control" id="todate" placeholder="To Date" name="todate">
+            <label for="todate">Invoice To</label>
         </div>
         <br>
-        <button class="w-20 btn btn-lg btn-success" type="submit">Edit/Delete Product</button>
+        <button class="w-20 btn btn-success" type="submit">Download Report</button>
     </form>
+</div>
+            <div class="col-4 form-signin">
+
+                <form action="/productid" method="post">
+                    <h1 class="h3 mb-3 fw-normal">Modify Product</h1>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingid" placeholder="Product Id" name="productId" maxlength="15">
+                        <label for="floatingid">Product Id</label>
+                    </div>
+                    <br>
+                    <button class="w-20 btn btn btn-success" type="submit">Edit/Delete Product</button>
+                </form>
+
+
+            </div>
+
+        </div>
+
     </main>
 </div>
 <br><br><br><br><br>
 <div class="footer bg-success" style="padding: 10px; bottom:-200px">
-    <p class="text-light text-center">© Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+    <p class="text-light text-center">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
 </div>
 
 

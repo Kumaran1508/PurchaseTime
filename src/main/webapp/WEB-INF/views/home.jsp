@@ -61,15 +61,33 @@
 <div class="container-fluid text-center mb-2">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none align-items-center">
-            <h5 class="mr-3" id="username">Hi! ${username}</h5>
+            <h5 class="mr-3" id="username"><%
+                //Hi! ${username}
+                String username= (String) request.getSession().getAttribute("username");
+ if(username!=null)
+     out.println("Hi! "+username);
+ else out.println("Please Login");
+            %></h5>
         </div>
         <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
             <img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
             <h3 class="text-success align-self-center">Purhcase Time</h3>
         </div>
-        <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
-            <button type="submit" class="btn btn-success btn-sm mr-3"><i class="bi bi-cart-fill mr-2"></i>Go to cart</button>
-            <a href="/logout" style="align-self: flex-end" class="btn btn-outline-danger btn-sm">LOGOUT</a>
+        <div class="col-4 d-flex flex-row justify-content-end mb-1 mb-md-0 text-dark text-decoration-none">
+            <%
+                if(username!=null && request.getSession().getAttribute("otpverified")!=null) {
+                    out.println("<button type=\"submit\" class=\"btn btn-outline-success btn-sm mr-3\"><i class=\"bi bi-cart-fill mr-2\"></i>Go to cart</button>");
+                    out.println("<a  href=\"/myorders\" class=\"btn btn-outline-dark btn-sm mr-3\"><i class=\"bi bi-receipt mr-2\"></i>My Orders</button>");
+                    out.println("<a href=\"/logout\" class=\"btn btn-outline-danger btn-sm\"><i class=\"bi bi-box-arrow-right mr-2\"></i>LOGOUT</a>");
+                }
+                else if(username!=null && request.getSession().getAttribute("otpverified")==null){
+                    response.sendRedirect("/otpauth");
+                }
+                else
+                    out.println("<a href=\"/login\" style=\"align-self: flex-end\" class=\"btn btn-outline-success btn-sm\">Login</a>");
+            %>
+
+
         </div>
 
     </header>
@@ -84,7 +102,6 @@
                     <a class="nav-link text-success" href="#topSelling">Deals fo the day</a>
                     <a class="nav-link text-success" href="#topDeals">Top Selling</a>
                     <%
-
                         for (ProductCategory category : ProductCategory.values()){
                             out.println("<a class=\"nav-link text-success\" href='#"+category.name()+"'>"+category.name()+"</a>");
                         }
@@ -209,7 +226,7 @@
     </div></div></form>
 <footer>
     <div class="bg-success">
-        <p class="text-light text-center" style="padding: 1%; margin-top: 1px; margin-bottom: 1px;">© Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+        <p class="text-light text-center" style="padding: 1%; margin-top: 1px; margin-bottom: 1px;">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
     </div>
 </footer>
 </body>

@@ -61,6 +61,16 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/otpauth",method = RequestMethod.GET)
+    public String getOTP(){
+        return "otpauth";
+    }
+
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public String gologin(){
+        return "index";
+    }
+
     @RequestMapping(value = "/home",method = RequestMethod.POST)
     public String gohome(@RequestParam("enteredOTP") final String otp,HttpServletRequest request){
         System.out.println(request.getSession().getAttribute("otp"));

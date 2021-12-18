@@ -74,10 +74,14 @@ Product product=(Product) request.getSession().getAttribute("editproduct");
 
             <div class="form-floating">
                 <select class="form-select form-select-lg mb-3" id=floatingcategory aria-label=".form-select-lg example" name="category">
-                    <option value='<%= ProductCategory.GROCERY%>' >Grocery</option>
-                    <option value='<%= ProductCategory.ELECTRONICS%>'>Electronics</option>
-                    <option value=<%= ProductCategory.TOOLS%> >Tools</option>
-                    <option value=<%= ProductCategory.HOME_ACCESSORIES%> >Home Accesories</option>
+                    <%
+                        ProductCategory[] categories = ProductCategory.values();
+                        for (ProductCategory category:categories){
+                            if (product.getCategory()==category)
+                                out.println("<option value='"+category.name()+"' selected>"+category.name()+"</option>");
+                            out.println("<option value='"+category.name()+"'>"+category.name()+"</option>");
+                        }
+                    %>
                 </select>
                 <label for="floatingcategory">Product Category</label>
             </div>
@@ -97,7 +101,7 @@ Product product=(Product) request.getSession().getAttribute("editproduct");
 </div>
 <br><br><br><br><br>
 <div class="footer bg-success" style="padding: 10px; bottom: -200px;">
-    <p class="text-light text-center">© Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+    <p class="text-light text-center">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
 </div>
 
 

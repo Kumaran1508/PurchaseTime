@@ -8,5 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface InvoiceTransactionRepository extends CrudRepository<InvoiceTransaction,Integer> {
-
+    public List<InvoiceTransaction> findAllByInvoicePrimaryInvoiceId(long id);
 }

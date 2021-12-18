@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,18 +46,30 @@ public class Test implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //        testPrimaryTransaction();
+
 //        testUserProfile();
+
 //        testProductHub();
+
 //        testprimaryInvoiceTrans();
+
 //        testPrimatyProf();
+
 //        checkShopping(null);
+
 //        print();
 
-//        List<Product> productList = productRepository.findTop4ByOrderBySoldDesc();
-//        List<Product> productList2 = productRepository.findTop4ByOrderByDiscountDesc();
-//        for (Product product : productList) System.out.println(product.getProductName());
+//        reportgeneration();
+    }
 
-
+    private void reportgeneration() {
+        Date fromdate = new Date();
+        fromdate.setMonth(11);
+        fromdate.setDate(13);
+        System.out.println(fromdate);
+        List<InvoicePrimary> invoices = invoicePrimaryRepository.findAllByInvoiceDateBetween(fromdate,new Date());
+        for (InvoicePrimary invoice : invoices)
+            System.out.println(invoice.getInvoiceId());
     }
 
     void testUserProfile(){

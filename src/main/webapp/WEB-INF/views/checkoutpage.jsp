@@ -47,7 +47,9 @@
         <div class="container-fluid text-center mb-2">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none align-items-center">
-                    <h5 class="mr-3" id="username">Hi! ${username}</h5>
+                    <h5 class="mr-3" id="username">Hi! <%
+                        out.println(request.getSession().getAttribute("username"));
+                    %></h5>
                 </div>
                 <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
                     <img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
