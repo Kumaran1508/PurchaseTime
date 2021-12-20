@@ -2,6 +2,10 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.vk.purchasetime.models.InvoiceTransaction" %>
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
+<%
+    String lang = (String) request.getSession().getAttribute("lang");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +23,7 @@
     <link rel="icon" href="assets\imgs\logo-light.png">
 
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title><% out.println(LanguageSupportService.get("order",lang)); %></title>
     <style>
         .card-img-top {
             width: 100%;
@@ -67,14 +71,14 @@
             </div>
             <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
                 <img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
-                <h3 class="text-success align-self-center">Purhcase Time</h3>
+                <h3 class="text-success align-self-center"><% out.println(LanguageSupportService.get("apptitle",lang)); %></h3>
             </div>
             <div class="col-4 d-flex flex-row justify-content-end mb-1 mb-md-0 text-dark text-decoration-none">
                 <%
                     if(username!=null && request.getSession().getAttribute("otpverified")!=null) {
-                        out.println("<button type=\"submit\" class=\"btn btn-outline-success btn-sm mr-3\"><i class=\"bi bi-cart-fill mr-2\"></i>Go to cart</button>");
-                        out.println("<a  href=\"/myorders\" class=\"btn btn-outline-dark btn-sm mr-3\"><i class=\"bi bi-receipt mr-2\"></i>My Orders</button>");
-                        out.println("<a href=\"/logout\" class=\"btn btn-outline-danger btn-sm\"><i class=\"bi bi-box-arrow-right mr-2\"></i>LOGOUT</a>");
+                        out.println("<button type=\"submit\" class=\"btn btn-outline-success btn-sm mr-3\"><i class=\"bi bi-cart-fill mr-2\"></i>"+LanguageSupportService.get("gotocart",lang)+"</button>");
+                        out.println("<a  href=\"/myorders\" class=\"btn btn-outline-dark btn-sm mr-3\"><i class=\"bi bi-receipt mr-2\"></i>"+LanguageSupportService.get("myorders",lang)+"</button>");
+                        out.println("<a href=\"/logout\" class=\"btn btn-outline-danger btn-sm\"><i class=\"bi bi-box-arrow-right mr-2\"></i>"+LanguageSupportService.get("logout",lang)+"</a>");
                     }
                     else if(username!=null && request.getSession().getAttribute("otpverified")==null){
                         response.sendRedirect("/otpauth");
@@ -93,7 +97,7 @@
     <div class="row justify-content-center py-5">
         <div class="col-md-6 col-lg-6 order-md-last justify-content-center">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-success">Order </span>
+                <span class="text-success"><% out.println(LanguageSupportService.get("order",lang)); %> </span>
                 <span class="badge bg-success rounded-pill"><%
                     HashMap<Product,Integer> products = (HashMap<Product, Integer>) request.getSession().getAttribute("cart");
                     List<InvoiceTransaction> invoiceTransactions = (List<InvoiceTransaction>) request.getSession().getAttribute("invtrans");
@@ -137,7 +141,7 @@
             </ul>
             <div class="row justify-content-center">
                 <div><form action="/reorder" method="post">
-                <input type="submit" class="btn btn-success w-25" value="Repeat Order">
+                <input type="submit" class="btn btn-success w-25" value="<% out.println(LanguageSupportService.get("repeatorder",lang)); %>">
                 </form></div>
             </div>
         </div>

@@ -18,11 +18,11 @@
     </properties>
 
     <repositories>
-        <repository>
-            <id>com.e-iceblue</id>
-            <name>e-iceblue</name>
-            <url>http://repo.e-iceblue.com/nexus/content/groups/public/</url>
-        </repository>
+<!--        <repository>-->
+<!--            <id>com.e-iceblue</id>-->
+<!--            <name>e-iceblue</name>-->
+<!--            <url>http://repo.e-iceblue.com/nexus/content/groups/public/</url>-->
+<!--        </repository>-->
     </repositories>
 
     <dependencies>
@@ -77,11 +77,11 @@
             <version>20.90.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>e-iceblue</groupId>
-            <artifactId>spire.doc.free</artifactId>
-            <version>2.7.3</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>e-iceblue</groupId>-->
+<!--            <artifactId>spire.doc.free</artifactId>-->
+<!--            <version>2.7.3</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.apache.poi</groupId>

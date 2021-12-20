@@ -5,7 +5,10 @@
 <%@ page import="com.vk.purchasetime.models.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Collections" %>
-
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
+<%
+    String lang = (String) request.getSession().getAttribute("lang");
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +27,7 @@
     <link rel="icon" href="assets\imgs\logo-light.png">
 
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title><% out.println(LanguageSupportService.get("tfpo",lang)); %></title>
     <style>
         .card-img-top {
             width: 100%;
@@ -65,25 +68,25 @@
                     //Hi! ${username}
                     String username= (String) request.getSession().getAttribute("username");
                     if(username!=null)
-                        out.println("Hi! "+username);
-                    else out.println("Please Login");
+                        out.println(LanguageSupportService.get("hi",lang)+"! "+username);
+                    else out.println(LanguageSupportService.get("pleaselogin",lang));
                 %></h5>
             </div>
             <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
                 <img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
-                <h3 class="text-success align-self-center">Purhcase Time</h3>
+                <h3 class="text-success align-self-center"><% out.println(LanguageSupportService.get("apptitle",lang)); %></h3>
             </div>
             <div class="col-4 d-flex flex-row justify-content-end mb-1 mb-md-0 text-dark text-decoration-none">
                 <%
                     if(username!=null && request.getSession().getAttribute("otpverified")!=null) {
-                        out.println("<f<button type=\"submit\" class=\"btn btn-outline-success btn-sm mr-3\"><i class=\"bi bi-cart-fill mr-2\"></i>Go to cart</button>");
-                        out.println("<a href=\"/logout\" class=\"btn btn-outline-danger btn-sm\"><i class=\"bi bi-box-arrow-right mr-2\"></i>LOGOUT</a>");
+                        out.println("<f<button type=\"submit\" class=\"btn btn-outline-success btn-sm mr-3\"><i class=\"bi bi-cart-fill mr-2\"></i>"+LanguageSupportService.get("gotocart",lang)+"</button>");
+                        out.println("<a href=\"/logout\" class=\"btn btn-outline-danger btn-sm\"><i class=\"bi bi-box-arrow-right mr-2\"></i>"+LanguageSupportService.get("logout",lang)+"</a>");
                     }
                     else if(username!=null && request.getSession().getAttribute("otpverified")==null){
                         response.sendRedirect("/otpauth");
                     }
                     else
-                        out.println("<a href=\"/login\" style=\"align-self: flex-end\" class=\"btn btn-outline-success btn-sm\">Login</a>");
+                        out.println("<a href=\"/login\" style=\"align-self: flex-end\" class=\"btn btn-outline-success btn-sm\">"+LanguageSupportService.get("login",lang)+"</a>");
                 %>
 
 
@@ -92,15 +95,15 @@
         </header>
     </div>
 
-    <h3>My Orders</h3>
+    <h3><% out.println(LanguageSupportService.get("myorders",lang)); %></h3>
     <div class="table-responsive">
         <table class="table table-striped table-light table-hover table-boderless text-center">
             <thead>
             <tr class="">
-                <th class="bg-success text-light col-2" scope="col">Id</th>
-                <th class="bg-success text-light col-6" scope="col">Date</th>
-                <th class="bg-success text-light col-2" scope="col">Amount</th>
-                <th class="bg-success text-light col-2" scope="col">Invoice</th>
+                <th class="bg-success text-light col-2" scope="col"><% out.println(LanguageSupportService.get("id",lang)); %></th>
+                <th class="bg-success text-light col-6" scope="col"><% out.println(LanguageSupportService.get("date",lang)); %></th>
+                <th class="bg-success text-light col-2" scope="col"><% out.println(LanguageSupportService.get("amount",lang)); %></th>
+                <th class="bg-success text-light col-2" scope="col"><% out.println(LanguageSupportService.get("invoice",lang)); %></th>
             </tr>
             </thead>
             <tbody>
@@ -112,7 +115,7 @@
                 out.println (" <tr> <th scope=\"row\">"+ip.getInvoiceId()+
                         "</th> <td>"+ip.getInvoiceDate()+
                         "</td> <td>"+ip.getAmount()+"</td> "
-                        +"<td><form action='/showorder' method='post'><input type='hidden' name='invoiceid' value='"+ ip.getInvoiceId()+"'><input type=\"submit\" value=\"View\" class=\"btn btn-success\"></form></td>\n" +
+                        +"<td><form action='/showorder' method='post'><input type='hidden' name='invoiceid' value='"+ ip.getInvoiceId()+"'><input type=\"submit\" value="+LanguageSupportService.get("view",lang)+" class=\"btn btn-success\"></form></td>\n" +
                         "</tr>");
                 }
             %>
@@ -126,7 +129,7 @@
 
 <footer>
     <div class="bg-success">
-        <p class="text-light text-center" style="padding: 1%; margin-top: 1px; margin-bottom: 1px;">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+        <p class="text-light text-center" style="padding: 1%; margin-top: 1px; margin-bottom: 1px;"><% out.println(LanguageSupportService.get("footertext",lang)); %></p>
     </div>
 </footer>
 </body>
