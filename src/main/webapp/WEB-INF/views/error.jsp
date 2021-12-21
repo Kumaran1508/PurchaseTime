@@ -1,3 +1,7 @@
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
+<%
+    String lang = (String) request.getSession().getAttribute("lang");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +15,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
 
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title><% out.println(LanguageSupportService.get("error",lang)); %></title>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -34,7 +38,7 @@
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-12 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
             <img src="assets\imgs\logo.jpg" class="img-thumbnail" alt="logo" width="50px" height="50px">
-            <h3 class="text-success align-self-center">Purhcase Time</h3>
+            <h3 class="text-success align-self-center"><% out.println(LanguageSupportService.get("apptitle",lang)); %></h3>
         </div>
 
     </header>
@@ -43,7 +47,7 @@
 <div class="container p-5 text-center">
     <h2 style="text-align: center">Error 404</h2>
     <img src="assets\imgs\cart.png" width="20%" class="img-fluid"><br>
-    <a href="/home" type="button" class="btn btn-success">Go to Home</a>
+    <a href="/" type="button" class="btn btn-success"><%=LanguageSupportService.get("gotohome",lang)%></a>
 </div>
 
 </body>

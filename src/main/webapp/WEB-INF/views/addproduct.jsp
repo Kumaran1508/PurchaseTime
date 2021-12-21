@@ -1,5 +1,9 @@
 <%@ page import="com.vk.purchasetime.models.ProductCategory" %>
 <%@ page import="com.vk.purchasetime.models.Product" %>
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
+<%
+    String lang = (String) request.getSession().getAttribute("lang");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +17,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
     <link rel="icon" href="\assets\imgs\logo-light.png">
     <meta charset="UTF-8">
-    <title>Purchase Time - login</title>
+    <title><% out.println(LanguageSupportService.get("admin",lang)); %></title>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -36,7 +40,7 @@
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-12 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
             <img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
-            <h3 class="text-success align-self-center">Purhcase Time</h3>
+            <h3 class="text-success align-self-center"><% out.println(LanguageSupportService.get("apptitle",lang)); %></h3>
         </div>
 
     </header>
@@ -47,26 +51,21 @@
         <div class="row align-items-center">
             <div class="col-4 form-signin">
                 <form action="/addproduct" method="post">
-                    <h1 class="h3 mb-3 fw-normal">Product Details</h1>
+                    <h1 class="h3 mb-3 fw-normal"><% out.println(LanguageSupportService.get("proddetails",lang)); %></h1>
 
                     <div class="form-floating m-1">
                         <input type="text" class="form-control" id="floatingname" placeholder="Product Name" name="productName" maxlength="15">
-                        <label for="floatingname">Product Name</label>
+                        <label for="floatingname"><% out.println(LanguageSupportService.get("prodname",lang)); %></label>
                     </div>
                     <div class="form-floating m-1">
                         <input type="text" class="form-control" id="floatingcost" placeholder="Product Cost" name="cost" >
-                        <label for="floatingcost">Product Cost</label>
-                    </div>
-
-                    <div class="form-floating m-1">
-                        <input type="text" class="form-control" id="floatingunit" placeholder="Unit(eg. kg)" name="unit">
-                        <label for="floatingunit">Unit</label>
+                        <label for="floatingcost"><% out.println(LanguageSupportService.get("prodcost",lang)); %></label>
                     </div>
 
 
                     <div class="form-floating m-1">
                         <input type="text" class="form-control" id="floatingurl" placeholder="ProductURL" name="url" >
-                        <label for="floatingurl">ProductImage URL</label>
+                        <label for="floatingurl"><% out.println(LanguageSupportService.get("prodimg",lang)); %></label>
                     </div>
 
 
@@ -79,43 +78,43 @@
                                 }
                             %>
                         </select>
-                        <label for="floatingcategory">Product Category</label>
+                        <label for="floatingcategory"><% out.println(LanguageSupportService.get("prodcategory",lang)); %></label>
                     </div>
 
                     <div class="form-floating m-1">
                         <input type="text" class="form-control" id="floatingdiscount" placeholder="Product Discount" name="discount" >
-                        <label for="floatingdiscount">Product Discount</label>
+                        <label for="floatingdiscount"><% out.println(LanguageSupportService.get("discount",lang)); %></label>
                     </div>
                     <br>
-                    <button class="w-20 btn btn btn-success" type="submit">Add Product</button>
+                    <button class="w-20 btn btn btn-success" type="submit"><% out.println(LanguageSupportService.get("addprod",lang)); %></button>
 
                 </form>
             </div>
             <div class="col-4 form-signin">
     <form action="/getreport" method="post">
-        <h1 class="h3 mb-3 fw-normal">Invoice Report</h1>
+        <h1 class="h3 mb-3 fw-normal"><% out.println(LanguageSupportService.get("invoicereport",lang)); %></h1>
         <div class="form-floating">
             <input type="date" class="form-control" id="fromdate" placeholder="From Date" name="fromdate">
-            <label for="fromdate">Invoice From </label>
+            <label for="fromdate"><% out.println(LanguageSupportService.get("invoicefrom",lang)); %> </label>
         </div>
         <div class="form-floating mt-1">
             <input type="date" class="form-control" id="todate" placeholder="To Date" name="todate">
-            <label for="todate">Invoice To</label>
+            <label for="todate"><% out.println(LanguageSupportService.get("invoiceto",lang)); %></label>
         </div>
         <br>
-        <button class="w-20 btn btn-success" type="submit">Download Report</button>
+        <button class="w-20 btn btn-success" type="submit"><% out.println(LanguageSupportService.get("downloadreport",lang)); %></button>
     </form>
 </div>
             <div class="col-4 form-signin">
 
                 <form action="/productid" method="post">
-                    <h1 class="h3 mb-3 fw-normal">Modify Product</h1>
+                    <h1 class="h3 mb-3 fw-normal"><% out.println(LanguageSupportService.get("modifyprod",lang)); %></h1>
                     <div class="form-floating">
                         <input type="text" class="form-control" id="floatingid" placeholder="Product Id" name="productId" maxlength="15">
-                        <label for="floatingid">Product Id</label>
+                        <label for="floatingid"><% out.println(LanguageSupportService.get("prodid",lang)); %></label>
                     </div>
                     <br>
-                    <button class="w-20 btn btn btn-success" type="submit">Edit/Delete Product</button>
+                    <button class="w-20 btn btn btn-success" type="submit"><% out.println(LanguageSupportService.get("editprod",lang)); %></button>
                 </form>
 
 
@@ -127,7 +126,7 @@
 </div>
 <br><br><br><br><br>
 <div class="footer bg-success" style="padding: 10px; bottom:-200px">
-    <p class="text-light text-center">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+    <p class="text-light text-center"><% out.println(LanguageSupportService.get("footertext",lang)); %></p>
 </div>
 
 

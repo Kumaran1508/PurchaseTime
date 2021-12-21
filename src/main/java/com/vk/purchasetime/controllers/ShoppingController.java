@@ -182,10 +182,10 @@ public class ShoppingController {
         return "success";
     }
 
-//    @RequestMapping(value = "/success",method = RequestMethod.GET)
-//    public String succeed(){
-//        return "success";
-//    }
+    @RequestMapping(value = "/success",method = RequestMethod.GET)
+    public String succeed(){
+        return "success";
+    }
 
 
     @RequestMapping(value = "/checkout-products",method = RequestMethod.POST)
@@ -237,8 +237,7 @@ public class ShoppingController {
                              @RequestParam("cost") final String cost,
                              @RequestParam("category") final String category,
                              @RequestParam("discount") final String discount,
-                             @RequestParam("url") final String url,
-                             @RequestParam("unit") final String unit){
+                             @RequestParam("url") final String url){
 
         System.out.println(category);
         Product product=new Product(productName,Double.parseDouble(cost),ProductCategory.valueOf(category),Double.parseDouble(discount),url);
@@ -371,6 +370,17 @@ public class ShoppingController {
     public String changeLanguage(@RequestParam("l") String l,HttpServletRequest request,HttpServletResponse response){
         request.getSession().setAttribute("lang",l);
         LanguageSupportService.localeResolver().setLocale(request,response,new Locale(l));
+
+        List<Product> productList = (List<Product>) productRepository.findAll();
+        request.getSession().setAttribute("products",productList);
+
+
+        List<Product> topSelling = productRepository.findTop4ByOrderBySoldDesc();
+        request.getSession().setAttribute("topSelling",topSelling);
+
+        List<Product> topDeals = productRepository.findTop4ByOrderByDiscountDesc();
+        request.getSession().setAttribute("topDeals",topDeals);
+
         return "home";
     }
 

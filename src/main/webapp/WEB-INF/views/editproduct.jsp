@@ -1,5 +1,9 @@
 <%@ page import="com.vk.purchasetime.models.ProductCategory" %>
 <%@ page import="com.vk.purchasetime.models.Product" %>
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
+<%
+    String lang = (String) request.getSession().getAttribute("lang");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +17,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
     <link rel="icon" href="\assets\imgs\logo-light.png">
     <meta charset="UTF-8">
-    <title>Purchase Time - login</title>
+    <title><% out.println(LanguageSupportService.get("editprod",lang)); %></title>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -53,23 +57,18 @@ Product product=(Product) request.getSession().getAttribute("editproduct");
 
 %>
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingname" placeholder="Product Name" value='<%=product.getProductName()%>' name="productName" maxlength="15">
-                <label for="floatingname">Product Name</label>
+                <input type="text" class="form-control" id="floatingname" placeholder="" value='<%=product.getProductName()%>' name="productName" maxlength="15">
+                <label for="floatingname"><% out.println(LanguageSupportService.get("prodname",lang)); %></label>
             </div>
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingcost" placeholder="Product Cost" value='<%=product.getCost()%>'name="cost" >
-                <label for="floatingcost">Product Cost</label>
-            </div>
-
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingunit" placeholder="Unit(eg. kg)" value='<%=product.getDiscount()%>'ame="unit">
-                <label for="floatingunit">Unit</label>
+                <input type="text" class="form-control" id="floatingcost" placeholder="" value='<%=product.getCost()%>'name="cost" >
+                <label for="floatingcost"><% out.println(LanguageSupportService.get("prodcost",lang)); %></label>
             </div>
 
 
             <div class="form-floating">
-                <input type="text" class="form-control" id="floatingurl" placeholder="ProductURL" name="url" value='<%=product.getUrl()%>'>
-                <label for="floatingurl">ProductImage URL</label>
+                <input type="text" class="form-control" id="floatingurl" placeholder="" name="url" value='<%=product.getUrl()%>'>
+                <label for="floatingurl"><% out.println(LanguageSupportService.get("prodimg",lang)); %></label>
             </div>
 
             <div class="form-floating">
@@ -83,17 +82,17 @@ Product product=(Product) request.getSession().getAttribute("editproduct");
                         }
                     %>
                 </select>
-                <label for="floatingcategory">Product Category</label>
+                <label for="floatingcategory"><% out.println(LanguageSupportService.get("prodcategory",lang)); %></label>
             </div>
 
             <div class="form-floating">
                 <input type="text" class="form-control" id="floatingdiscount" placeholder="Product Discount" name="discount" value='<%=product.getDiscount()%>'>
-                <label for="floatingdiscount">Product Discount</label>
+                <label for="floatingdiscount"><% out.println(LanguageSupportService.get("discount",lang)); %></label>
             </div>
             <br>
-            <button class="w-20 btn btn-lg btn-success" type="submit">Save Edited</button>
+            <button class="w-20 btn btn-lg btn-success" type="submit"><% out.println(LanguageSupportService.get("save",lang)); %></button>
             <br>
-            <button class="w-20 btn btn-lg btn-danger" type="submit" name="delete">delete product</button>
+<%--            <button class="w-20 btn btn-lg btn-danger" type="submit" name="delete">delete product</button>--%>
 
         </form>
 
@@ -101,7 +100,7 @@ Product product=(Product) request.getSession().getAttribute("editproduct");
 </div>
 <br><br><br><br><br>
 <div class="footer bg-success" style="padding: 10px; bottom: -200px;">
-    <p class="text-light text-center">&copy; Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+    <p class="text-light text-center"><% out.println(LanguageSupportService.get("footertext",lang)); %></p>
 </div>
 
 

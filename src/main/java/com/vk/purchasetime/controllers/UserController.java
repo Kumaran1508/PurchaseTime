@@ -133,7 +133,7 @@ public class UserController {
         User user = userRepository.findUserByResetPassToken(token);
         if (user!=null){
             request.getSession().setAttribute("userid",user.getUserId());
-            request.getSession().setAttribute("lang","ta");
+            request.getSession().setAttribute("lang","en");
             return "resetpassword";
         }
 

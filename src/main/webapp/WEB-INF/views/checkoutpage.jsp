@@ -3,6 +3,11 @@
 <%@ page import="com.vk.purchasetime.models.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="com.vk.purchasetime.services.LanguageSupportService" %>
+<%
+    String lang = (String) request.getSession().getAttribute("lang");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +25,7 @@
     <link rel="icon" href="assets\imgs\logo-light.png">
 
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title><% out.println(LanguageSupportService.get("checkout",lang)); %></title>
     <style>
         .card-img-top {
             width: 100%;
@@ -47,16 +52,16 @@
         <div class="container-fluid text-center mb-2">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none align-items-center">
-                    <h5 class="mr-3" id="username">Hi! <%
-                        out.println(request.getSession().getAttribute("username"));
+                    <h5 class="mr-3" id="username"><%
+                        out.println(LanguageSupportService.get("hi",lang)+"! "+request.getSession().getAttribute("username"));
                     %></h5>
                 </div>
                 <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
                     <img src="\assets\imgs\logo.jpg" class="img-fluid rounded" alt="logo" width="50px" height="50px">
-                    <h3 class="text-success align-self-center">Purhcase Time</h3>
+                    <h3 class="text-success align-self-center"><% out.println(LanguageSupportService.get("apptitle",lang)); %></h3>
                 </div>
                 <div class="col-4 d-flex mb-1 mb-md-0 text-dark text-decoration-none justify-content-center align-items-center">
-                    <a href="/logout" style="align-self: flex-end" class="btn btn-outline-danger btn-sm">LOGOUT</a>
+                    <a href="/logout" style="align-self: flex-end" class="btn btn-outline-danger btn-sm"><% out.println(LanguageSupportService.get("logout",lang)); %></a>
                 </div>
 
             </header>
@@ -66,7 +71,7 @@
             <div class="row g-5">
                 <div class="col-md-5 col-lg-4 order-md-last">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-success">Your cart</span>
+                        <span class="text-success"><% out.println(LanguageSupportService.get("yourcart",lang)); %></span>
                         <span class="badge bg-success rounded-pill">${cart.size()}</span>
                     </h4>
                     <ul class="list-group mb-3">
@@ -99,7 +104,7 @@
                             }
 
                             out.println("<li class=\"list-group-item d-flex justify-content-between\">\n" +
-                                            "<span>Total (INR)</span>\n" +
+                                            "<span>"+LanguageSupportService.get("totalinr",lang)+"</span>\n" +
                                             "<strong name='amount'>&#8377;"+String.format("%.2f",Total)+"</strong>\n" +
                                             "<input type=\"hidden\" name=\"amount\" value=\""+String.format("%.2f",Total)+"\">"+
                                         "</li>");
@@ -108,10 +113,10 @@
                 </div>
             <div class="col-md-7 col-lg-8 ">
                 <form action="/create-checkout-session" method="post">
-                    <h4 class="mb-3">Billing address</h4>
+                    <h4 class="mb-3"><% out.println(LanguageSupportService.get("billingaddress",lang)); %></h4>
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <label for="firstName" class="form-label">First name</label>
+                            <label for="firstName" class="form-label"><% out.println(LanguageSupportService.get("firstname",lang)); %></label>
                             <input type="text" name="firstName" class="form-control" id="firstName" placeholder="" value="" required="">
                             <div class="invalid-feedback">
                                 Valid first name is required.
@@ -119,7 +124,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="lastName" class="form-label">Last name</label>
+                            <label for="lastName" class="form-label"><% out.println(LanguageSupportService.get("lastname",lang)); %></label>
                             <input type="text" name="lastName" class="form-control" id="lastName" placeholder="" value="" required="">
                             <div class="invalid-feedback">
                                 Valid last name is required.
@@ -127,22 +132,22 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" name="address" class="form-control" id="address" placeholder="1234 Main St" required="">
+                            <label for="address" class="form-label"><% out.println(LanguageSupportService.get("address",lang)); %></label>
+                            <input type="text" name="address" class="form-control" id="address" placeholder="" required="">
                             <div class="invalid-feedback">
                                 Please enter your shipping address.
                             </div>
                         </div>
 
                         <div class="col-12">
-                            <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
-                            <input type="text" name="address2" class="form-control" id="address2" placeholder="Apartment or suite">
+                            <label for="address2" class="form-label"><% out.println(LanguageSupportService.get("address2",lang)); %><span class="text-muted">(Optional)</span></label>
+                            <input type="text" name="address2" class="form-control" id="address2" placeholder="">
                         </div>
 
                         <div class="col-md-3">
-                            <label for="country" class="form-label">Country</label>
+                            <label for="country" class="form-label"><% out.println(LanguageSupportService.get("country",lang)); %></label>
                             <select name="country" class="form-select" id="country" required="">
-                                <option>India</option>
+                                <option><% out.println(LanguageSupportService.get("india",lang)); %></option>
                             </select>
                             <div class="invalid-feedback">
                                 Please select a valid country.
@@ -150,9 +155,9 @@
                         </div>
 
                         <div class="col-md-5">
-                            <label for="state" class="form-label">State</label>
+                            <label for="state" class="form-label"><% out.println(LanguageSupportService.get("state",lang)); %></label>
                             <select name="state" class="form-select" name="state" id="state" required="">
-                                <option>Tamil Nadu</option>
+                                <option><% out.println(LanguageSupportService.get("tamilnadu",lang)); %></option>
                             </select>
                             <div class="invalid-feedback">
                                 Please provide a valid state.
@@ -160,7 +165,7 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label for="zip" class="form-label">Zip</label>
+                            <label for="zip" class="form-label"><% out.println(LanguageSupportService.get("zip",lang)); %></label>
                             <input type="text" name="zipcode" class="form-control" id="zip" placeholder="" required="">
                             <div class="invalid-feedback">
                                 Zip code required.
@@ -170,7 +175,7 @@
 
                     <hr class="my-4">
 
-                    <input class="w-100 btn btn-success btn-lg" type="submit" value="Continue to checkout"></input>
+                    <input class="w-100 btn btn-success btn-lg" type="submit" value="<% out.println(LanguageSupportService.get("continuetocheckout",lang)); %>">
                 </form>
             </div>
         </div>
@@ -179,7 +184,7 @@
 
     <footer>
         <div class="footer bg-success" style="position: fixed;">
-            <p class="text-light text-center" style="padding: 1%; margin-top: 1px; margin-bottom: 1px;">© Copyright Agency and contributors 2021. Purchase Time  53 001 228 799</p>
+            <p class="text-light text-center" style="padding: 1%; margin-top: 1px; margin-bottom: 1px;"><% out.println(LanguageSupportService.get("footertext",lang)); %></p>
         </div>
     </footer>
 </body>
